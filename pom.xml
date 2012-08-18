@@ -35,7 +35,6 @@
       <artifactId>xom</artifactId>
       <version>1.2.5</version>
     </dependency>
-
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr</artifactId>
@@ -47,16 +46,29 @@
       <groupId>org.apache.solr</groupId>
       <version>3.6.0</version>
     </dependency>
-
   </dependencies>
   <build>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.txt</include>
+          <include>**/*.conf</include>
+          <include>**/*.xsl</include>
+        </includes>
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -126,7 +138,7 @@
   <!-- Below's can be overridden in ${MAVEN_HOME}/conf/settings.xml -->
   <properties>
     <enable.master>true</enable.master>
-    <!--<enable.slave>false</enable.slave>-->
+    <enable.slave>false</enable.slave>
     <master.solr.url>http://localhost:8983/solr</master.solr.url>
     <solr.poll.interval>00:00:20</solr.poll.interval>
     <master.solr.httpauth.u>username</master.solr.httpauth.u>

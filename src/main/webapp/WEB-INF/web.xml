@@ -114,7 +114,8 @@
 
   <env-entry>
     <env-entry-name>solr/home</env-entry-name>
-    <env-entry-value>src/main/resources</env-entry-value>
+<!--    <env-entry-value>src/main/resources</env-entry-value>-->
+    <env-entry-value>target/classes</env-entry-value>
     <env-entry-type>java.lang.String</env-entry-type>
   </env-entry>
 

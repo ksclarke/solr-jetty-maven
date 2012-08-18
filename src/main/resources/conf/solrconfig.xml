@@ -196,7 +196,7 @@
 
   <requestHandler name="/replication" class="solr.ReplicationHandler" >
     <lst name="master">
-      <str name="enable">${enable.master:false}</str>
+      <str name="enable">${enable.master}</str>
       <str name="replicateAfter">startup</str>
       <str name="replicateAfter">commit</str>
       <str name="backupAfter">optimize</str>
@@ -205,13 +205,13 @@
       <str name="commitReserveDuration">00:00:10</str>
     </lst>
     <lst name="slave">
-      <str name="enable">${enable.slave:false}</str>
-      <str name="masterUrl">${master.solr.url:http://localhost:8983/solr}</str>
-      <str name="pollInterval">${solr.poll.interval:00:00:20}</str>
+      <str name="enable">${enable.slave}</str>
+      <str name="masterUrl">${master.solr.url}</str>
+      <str name="pollInterval">${solr.poll.interval}</str>
       
       <!-- Master requires authentication -->
-      <str name="httpBasicAuthUser">${master.solr.httpauth.u:username}</str>
-      <str name="httpBasicAuthPassword">${master.solr.httpauth.pw:password}</str>
+      <str name="httpBasicAuthUser">${master.solr.httpauth.u}</str>
+      <str name="httpBasicAuthPassword">${master.solr.httpauth.pw}</str>
     </lst>
     <str name="maxNumberOfBackups">1</str> 
   </requestHandler>
