@@ -1,0 +1,21 @@
+=================================================================================
+solr-jetty-maven
+=================================================================================
+
+A Solr project that runs in a Jetty/Maven context.
+
+
+=================================================================================
+Introduction
+=================================================================================
+
+To start Solr, type: mvn jetty:run-exploded
+To use Solr's administrative UI, go to: http://localhost:8983/solr/admin
+
+
+=================================================================================
+Contact
+=================================================================================
+
+This is a pretty straightforword use of Solr, but if you have questions about it
+feel free to contact me, Kevin S. Clarke, at ksclarke@gmail.com
