@@ -1,0 +1,14 @@
+# Default properties used by our profiles in the pom.xml file
+# Users should not need to touch this file
+# These properties can be overridden via other methods
+
+master.solr.url = 
+enable.master = false
+enable.slave = false
+commit.reserve.duration = 00:00:10
+number.to.keep = 10
+max.number.of.backups = 1
+poll.interval = 00:00:20
+master.solr.httpauth.u = username
+master.solr.httpauth.pw = password
+
