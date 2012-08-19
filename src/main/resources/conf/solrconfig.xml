@@ -200,20 +200,20 @@
       <str name="replicateAfter">startup</str>
       <str name="replicateAfter">commit</str>
       <str name="backupAfter">optimize</str>
-      <int name="numberToKeep">20</int>
+      <int name="numberToKeep">${number.to.keep}</int>
       <str name="confFiles">schema.xml,stopwords.txt,elevate.xml</str>
-      <str name="commitReserveDuration">00:00:10</str>
+      <str name="commitReserveDuration">${commit.reserve.duration}</str>
     </lst>
     <lst name="slave">
       <str name="enable">${enable.slave}</str>
       <str name="masterUrl">${master.solr.url}</str>
-      <str name="pollInterval">${solr.poll.interval}</str>
+      <str name="pollInterval">${poll.interval}</str>
       
       <!-- Master requires authentication -->
       <str name="httpBasicAuthUser">${master.solr.httpauth.u}</str>
       <str name="httpBasicAuthPassword">${master.solr.httpauth.pw}</str>
     </lst>
-    <str name="maxNumberOfBackups">1</str> 
+    <str name="maxNumberOfBackups">${max.number.of.backups}</str> 
   </requestHandler>
 
   <!-- requestHandler plugins... incoming queries will be dispatched to the

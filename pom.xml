@@ -48,6 +48,9 @@
     </dependency>
   </dependencies>
   <build>
+    <filters>
+      <filter>src/main/resources/pom.defaults</filter>
+    </filters>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -134,16 +137,56 @@
       </plugin>
     </plugins>
   </build>
-  <!-- Default settings, here, can be overridden in profiles below -->
-  <!-- Below's can be overridden in ${MAVEN_HOME}/conf/settings.xml -->
-  <properties>
-    <enable.master>true</enable.master>
-    <enable.slave>false</enable.slave>
-    <master.solr.url>http://localhost:8983/solr</master.solr.url>
-    <solr.poll.interval>00:00:20</solr.poll.interval>
-    <master.solr.httpauth.u>username</master.solr.httpauth.u>
-    <master.solr.httpauth.pw>password</master.solr.httpauth.pw>
-  </properties>
+  <profiles>
+    <!-- Default profile is a standalone Solr instance -->
+    <profile>
+      <id>default</id>
+      <activation>
+        <property>
+          <name>!env.type</name>
+        </property>
+      </activation>
+      <properties>
+      </properties>
+    </profile>
+    <!-- You can also run Solr as a master instance -->
+    <profile>
+      <id>master</id>
+      <activation>
+        <property>
+          <name>env.type</name>
+          <value>master</value>
+        </property>
+      </activation>
+      <properties>
+        <enable.master>true</enable.master>
+        <commit.reserve.duration>00:00:10</commit.reserve.duration>
+        <number.to.keep>10</number.to.keep>
+        <max.number.of.backups>1</max.number.of.backups>
+      </properties>
+    </profile>
+    <!-- If you have a master, you'll probably want read-only slaves -->
+    <profile>
+      <id>slave</id>
+      <activation>
+        <property>
+          <name>env.type</name>
+          <value>slave</value>
+        </property>
+      </activation>
+      <properties>
+        <enable.slave>true</enable.slave>
+        <poll.interval>00:00:20</poll.interval>
+        <master.solr.url>http://localhost:8983/solr</master.solr.url>
+
+        <!-- If using HTTP auth on master to prevent unauthorized updates -->
+        <master.solr.httpauth.u>username</master.solr.httpauth.u>
+        <master.solr.httpauth.pw>password</master.solr.httpauth.pw>
+
+        <max.number.of.backups>1</max.number.of.backups>
+      </properties>
+    </profile>
+  </profiles>
 <!--
   <repositories>
     <repository>

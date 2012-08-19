@@ -9,8 +9,23 @@ A Solr project that runs in a Jetty/Maven context.
 Introduction
 =================================================================================
 
-To start Solr, type: mvn jetty:run-exploded
+To start a standalone Solr instance, type:
+  mvn jetty:run
+
+To start a master Solr instance, type:
+  mvn -Denv.type=master jetty:run
+
+To start a slave Solr instance, type:
+  mvn -Denv.type=slave jetty:run
+
 To use Solr's administrative UI, go to: http://localhost:8983/solr/admin
+
+To configure a Solr master or slave instance, look at the configuration in the
+project's pom.xml profiles section.  Those values can be overridden in a Maven
+settings.xml file found at either:
+
+  $M2_HOME/conf/settings.xml
+  ${user.home}/.m2/settings.xml
 
 
 =================================================================================
