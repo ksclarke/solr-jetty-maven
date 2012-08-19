@@ -2,7 +2,7 @@
 solr-jetty-maven
 =================================================================================
 
-A Solr project that runs in a Jetty/Maven context.
+A Solr project that runs in a Jetty/Maven context. It's been tested with Maven 3.
 
 
 =================================================================================
