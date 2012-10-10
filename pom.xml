@@ -115,7 +115,7 @@
           <webAppConfig><contextPath>/solr</contextPath></webAppConfig>
           <stopKey>cough</stopKey>
           <stopPort>8998</stopPort>
-          <scanIntervalSeconds>1</scanIntervalSeconds>
+          <scanIntervalSeconds>0</scanIntervalSeconds>
           <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
             <filename>target/yyyy_mm_dd.request.log</filename>
             <retainDays>30</retainDays>
