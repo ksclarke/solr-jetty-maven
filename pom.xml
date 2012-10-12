@@ -26,11 +26,6 @@
     	<version>2.3</version>
     </dependency>
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>0.9.24</version>
-    </dependency>
-    <dependency>
       <groupId>xom</groupId>
       <artifactId>xom</artifactId>
       <version>1.2.5</version>
@@ -112,7 +107,9 @@
               <maxIdleTime>60000</maxIdleTime>
             </connector>
           </connectors>
-          <webAppConfig><contextPath>/solr</contextPath></webAppConfig>
+          <webAppConfig>
+              <contextPath>/</contextPath>
+          </webAppConfig>
           <stopKey>cough</stopKey>
           <stopPort>8998</stopPort>
           <scanIntervalSeconds>0</scanIntervalSeconds>

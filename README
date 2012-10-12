@@ -10,13 +10,13 @@ Introduction
 =================================================================================
 
 To start a standalone Solr instance, type:
-  mvn jetty:run
+  mvn process-resources jetty:run
 
 To start a master Solr instance, type:
-  mvn -Denv.type=master jetty:run
+  mvn -Denv.type=master process-resources jetty:run
 
 To start a slave Solr instance, type:
-  mvn -Denv.type=slave jetty:run
+  mvn -Denv.type=slave process-resources jetty:run
 
 To use Solr's administrative UI, go to: http://localhost:8983/solr/admin
 
@@ -26,6 +26,12 @@ settings.xml file found at either:
 
   $M2_HOME/conf/settings.xml
   ${user.home}/.m2/settings.xml
+
+Note that currently, running:
+
+  mvn clean
+
+will "clean" (i.e., delete) the Solr workspace (index, snapshots, etc.)
 
 
 =================================================================================
