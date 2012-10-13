@@ -9,16 +9,13 @@ A Solr project that runs in a Jetty/Maven context. It's been tested with Maven 3
 Introduction
 =================================================================================
 
-To start a standalone Solr instance, type:
+To start a standalone (or master) Solr instance, type:
   mvn process-resources jetty:run
-
-To start a master Solr instance, type:
-  mvn -Denv.type=master process-resources jetty:run
 
 To start a slave Solr instance, type:
   mvn -Denv.type=slave process-resources jetty:run
 
-To use Solr's administrative UI, go to: http://localhost:8983/solr/admin
+To use Solr's administrative / dashboard UI, go to: http://localhost:8983/#/
 
 To configure a Solr master or slave instance, look at the configuration in the
 project's pom.xml profiles section.  Those values can be overridden in a Maven
@@ -32,6 +29,16 @@ Note that, currently, running:
   mvn clean
 
 will "clean" (i.e., delete) the Solr workspace (index, snapshots, etc.)
+
+
+=================================================================================
+Replication Options
+=================================================================================
+
+For a first pass, this is still configured to do replication in the older > 1.4
+version style (which uses polling).  With the release of version 4.0, there is a
+new method for replication, SolrCloud (which uses pushes).  I will look into this
+new method and see what needs to be done in Maven to make it work / configurable.
 
 
 =================================================================================

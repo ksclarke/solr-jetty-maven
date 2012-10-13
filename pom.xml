@@ -33,7 +33,7 @@
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr</artifactId>
-      <version>4.0</version>
+      <version>4.0.0</version>
       <type>war</type>
     </dependency>
     <dependency>
@@ -144,6 +144,8 @@
         </property>
       </activation>
       <properties>
+        <enable.master>true</enable.master>
+        <commit.reserve.duration>00:00:10</commit.reserve.duration>
       </properties>
     </profile>
     <!-- You can also run Solr as a master instance -->
@@ -158,8 +160,6 @@
       <properties>
         <enable.master>true</enable.master>
         <commit.reserve.duration>00:00:10</commit.reserve.duration>
-        <number.to.keep>10</number.to.keep>
-        <max.number.of.backups>1</max.number.of.backups>
       </properties>
     </profile>
     <!-- If you have a master, you'll probably want read-only slaves -->
@@ -174,7 +174,7 @@
       <properties>
         <enable.slave>true</enable.slave>
         <poll.interval>00:00:20</poll.interval>
-        <master.solr.url>http://localhost:8983/solr</master.solr.url>
+        <master.solr.url>http://localhost:8983/collection1/replication</master.solr.url>
 
         <!-- If using HTTP auth on master to prevent unauthorized updates -->
         <master.solr.httpauth.u>username</master.solr.httpauth.u>
