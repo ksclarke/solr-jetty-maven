@@ -38,7 +38,10 @@ Replication Options
 For a first pass, this is still configured to do replication in the older > 1.4
 version style (which uses polling).  With the release of version 4.0, there is a
 new method for replication, SolrCloud (which uses pushes).  I will look into this
-new method and see what needs to be done in Maven to make it work / configurable.
+new method and see what needs to be done in Maven.
+
+http://wiki.apache.org/solr/SolrReplication
+http://wiki.apache.org/solr/SolrCloud
 
 
 =================================================================================
