@@ -27,7 +27,7 @@ settings.xml file found at either:
   $M2_HOME/conf/settings.xml
   ${user.home}/.m2/settings.xml
 
-Note that currently, running:
+Note that, currently, running:
 
   mvn clean
 
