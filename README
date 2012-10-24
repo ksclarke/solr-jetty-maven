@@ -41,7 +41,11 @@ Running from Init.d/service
 =================================================================================
 
 There is a beta Init.d script that will allow the Solr service to be started in a
-standard Linux way.  To install it, copy it to the /etc/init.d directory:
+standard Linux way.  First, check it to ensure that the user who will be running
+the service, the location of the service (ie, where you've checkout out the code)
+and all the other parameters match your local system... (edit to fit your needs).
+
+After that, you can install it by copying it to the /etc/init.d directory:
 
   sudo cp etc/init.d/solr /etc/init.d/solr
 
