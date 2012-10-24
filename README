@@ -11,12 +11,15 @@ Introduction
 
 To install, you'll need Git, Java (>= 1.6), and Maven 3 installed. Once those are
 installed through your system's package manager, you can get this code using git:
+
   git clone git://github.com/ksclarke/solr-jetty-maven.git
 
 To start a standalone / master Solr instance, change into the directory and type:
+
   mvn process-resources jetty:run
 
 To start a slave Solr instance:
+
   1) Edit the <master.solr.url> element in the pom.xml to point to the master
   2) Then, type: mvn -Denv.type=slave process-resources jetty:run
 
@@ -37,7 +40,7 @@ will "clean" (i.e., delete) the Solr workspace (index, snapshots, etc.)
 
 
 =================================================================================
-Running from Init.d/service
+Running as a System Service
 =================================================================================
 
 There is a beta Init.d script that will allow the Solr service to be started in a
