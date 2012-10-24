@@ -1,0 +1,97 @@
+#!/bin/bash
+#-----------------------------------------------------
+# solr-initd v0.0.1
+#-----------------------------------------------------
+# Script for running solr as a service under initd.
+#
+# Usage: service solr {start|stop|restart|status}"
+#
+#-----------------------------------------------------
+# Author: Kevin S. Clarke <ksclarke@gmail.com>
+# URL: https://github.com/ksclarke/solr-jetty-maven
+#-----------------------------------------------------
+### BEGIN INIT INFO
+# Provides:          solr
+# Required-Start:
+# Required-Stop:
+# Default-Start:     3 5
+# Default-Stop:      0 1 2 6
+# Short-Description: init script for solr search
+# Description:       init script for solr search
+#                    This should be placed in /etc/init.d
+### END INIT INFO
+
+# Configs that might need to be changed
+SOLR_HOME=/opt/solr-jetty-maven
+
+MAVEN_OPTIONS="--quiet"
+#MAVEN_OPTIONS="-Xmx1024m"
+
+SOLR_OPTIONS=""
+#SOLR_OPTIONS="-Denable.master=true"
+#SOLR_OPTIONS="-Denable.slave=true"
+
+SOLR_USER="www-data"
+#SOLR_USER="apache"
+
+# Configs that shouldn't need to be changed
+SOLR_START_CMD="sudo -u ${SOLR_USER} MAVEN_OPTIONS=${MAVEN_OPTIONS} mvn ${SOLR_OPTIONS} jetty:run"
+SOLR_STOP_CMD="sudo -u ${SOLR_USER} mvn jetty:stop"
+
+SOLR_PIDFILE=/var/run/solr.pid
+SOLR_LOGFILE=/var/log/solr.log
+
+# Checking to make sure we're able to run what we need to
+if [ ! -d $SOLR_HOME ]; then
+    die "Can't find $SOLR_HOME"
+fi
+
+if [ ! -f ${SOLR_HOME}/pom.xml ]; then
+    die "Missing Maven config file: ${SOLR_HOME}/pom.xml"
+fi
+
+if [ ! -f ${SOLR_HOME}/src/main/resources/collection1/conf/schema.xml ]; then
+    die "Missing Solr schema file: ${SOLR_HOME}/src/main/resources/collection1/conf/schema.xml"
+fi
+
+if [ ! -f ${SOLR_HOME}/src/main/resources/collection1/conf/solrconfig.xml ]; then
+    die "Missing Solr config file: ${SOLR_HOME}/src/main/resources/collection1/conf/solrconfig.xml"
+fi
+
+case $1 in
+    start)
+	eval cd ~$SOLR_USER
+
+	if [ ! -f .m2 ]; then
+		mkdir -p .m2/repository
+		chown -R $SOLR_USER:$SOLR_USER .m2
+	fi
+
+	cd $SOLR_HOME
+	echo "Starting Solr..."
+	nohup $SOLR_START_CMD > $SOLR_LOGFILE 2>&1 &
+	echo $! > $SOLR_PIDFILE
+        echo $?
+        ;;
+    stop)
+	cd $SOLR_HOME
+	echo "Stopping Solr..."
+        $SOLR_STOP_CMD
+	rm $SOLR_PIDFILE
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    status)
+	if [ -f $SOLR_PIDFILE ]; then
+		echo "Solr running"
+        else
+		echo "Solr stopped"
+	fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 3
+        ;;
+esac

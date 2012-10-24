@@ -135,7 +135,7 @@
     </plugins>
   </build>
   <profiles>
-    <!-- Default profile is a standalone Solr instance -->
+    <!-- Default profile is a master/standalone Solr instance -->
     <profile>
       <id>default</id>
       <activation>
@@ -148,7 +148,7 @@
         <commit.reserve.duration>00:00:10</commit.reserve.duration>
       </properties>
     </profile>
-    <!-- You can also run Solr as a master instance -->
+    <!-- This covers the case of wanting to specify env.type -->
     <profile>
       <id>master</id>
       <activation>
@@ -174,6 +174,7 @@
       <properties>
         <enable.slave>true</enable.slave>
         <poll.interval>00:00:20</poll.interval>
+        <!-- TODO: work on making cores easily configurable(?) -->
         <master.solr.url>http://localhost:8983/collection1/replication</master.solr.url>
 
         <!-- If using HTTP auth on master to prevent unauthorized updates -->
