@@ -14,8 +14,8 @@
 # Provides:          solr
 # Required-Start:
 # Required-Stop:
-# Default-Start:     3 5
-# Default-Stop:      0 1 2 6
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
 # Short-Description: init script for solr search
 # Description:       init script for solr search
 #                    This should be placed in /etc/init.d
@@ -24,7 +24,7 @@
 # Configs that might need to be changed
 SOLR_HOME=/opt/solr-jetty-maven
 
-MAVEN_OPTIONS="--quiet"
+MAVEN_OPTIONS=""
 #MAVEN_OPTIONS="-Xmx1024m"
 
 SOLR_OPTIONS=""
@@ -36,30 +36,30 @@ SOLR_USER="www-data"
 
 # Configs that shouldn't need to be changed
 SOLR_START_CMD="sudo -u ${SOLR_USER} MAVEN_OPTIONS=${MAVEN_OPTIONS} mvn ${SOLR_OPTIONS} jetty:run"
-SOLR_STOP_CMD="sudo -u ${SOLR_USER} mvn jetty:stop"
+SOLR_STOP_CMD="sudo -u ${SOLR_USER} mvn -q jetty:stop"
 
 SOLR_PIDFILE=/var/run/solr.pid
 SOLR_LOGFILE=/var/log/solr.log
 
 # Checking to make sure we're able to run what we need to
 if [ ! -d $SOLR_HOME ]; then
-    die "Can't find $SOLR_HOME"
+	die "Can't find $SOLR_HOME"
 fi
 
 if [ ! -f ${SOLR_HOME}/pom.xml ]; then
-    die "Missing Maven config file: ${SOLR_HOME}/pom.xml"
+	die "Missing Maven config file: ${SOLR_HOME}/pom.xml"
 fi
 
 if [ ! -f ${SOLR_HOME}/src/main/resources/collection1/conf/schema.xml ]; then
-    die "Missing Solr schema file: ${SOLR_HOME}/src/main/resources/collection1/conf/schema.xml"
+	die "Missing Solr schema file: ${SOLR_HOME}/src/main/resources/collection1/conf/schema.xml"
 fi
 
 if [ ! -f ${SOLR_HOME}/src/main/resources/collection1/conf/solrconfig.xml ]; then
-    die "Missing Solr config file: ${SOLR_HOME}/src/main/resources/collection1/conf/solrconfig.xml"
+	die "Missing Solr config file: ${SOLR_HOME}/src/main/resources/collection1/conf/solrconfig.xml"
 fi
 
 case $1 in
-    start)
+start)
 	eval cd ~$SOLR_USER
 
 	if [ ! -f .m2 ]; then
@@ -67,31 +67,55 @@ case $1 in
 		chown -R $SOLR_USER:$SOLR_USER .m2
 	fi
 
+	started=false
 	cd $SOLR_HOME
-	echo "Starting Solr..."
 	nohup $SOLR_START_CMD > $SOLR_LOGFILE 2>&1 &
-	echo $! > $SOLR_PIDFILE
-        echo $?
-        ;;
-    stop)
+	pid=$!
+	echo $pid > $SOLR_PIDFILE
+
+	# We remove one line in the below because it contains `ps` labels
+	while [ `ps -p$pid -o pid | sed "1 d" | wc -l` != 0 ];
+	do
+		if grep -q "Started Jetty Server" $SOLR_LOGFILE
+		then
+			started=true
+    		break
+		fi
+
+		sleep 1
+	done
+
+	if [ $started == true ]
+	then
+		echo "Solr successfully started"
+	else
+		wait $pid
+
+		if [[ $? != 0 ]]; then
+			echo "Failed to start Solr"
+			echo "  Consult the log for more details: $SOLR_LOGFILE"
+		fi
+	fi
+	;;
+stop)
 	cd $SOLR_HOME
-	echo "Stopping Solr..."
-        $SOLR_STOP_CMD
-	rm $SOLR_PIDFILE
-        ;;
-    restart)
-        $0 stop
-        $0 start
-        ;;
-    status)
+	$SOLR_STOP_CMD
+	rm -f $SOLR_PIDFILE
+	echo "Solr successfully stopped"
+	;;
+restart)
+	$0 stop
+	$0 start
+	;;
+status)
 	if [ -f $SOLR_PIDFILE ]; then
 		echo "Solr running"
-        else
+	else
 		echo "Solr stopped"
 	fi
-        ;;
-    *)
-        echo "Usage: $0 {start|stop|restart|status}"
-        exit 3
-        ;;
+	;;
+*)
+	echo "Usage: $0 {start|stop|restart|status}"
+	exit 3
+	;;
 esac
