@@ -48,7 +48,7 @@ elif [ $DISTRIB_ID == 'Ubuntu' ] \
 	|| [ $DISTRIB_ID == 'Debian' ]; then
 	SOLR_USER="www-data"
 else
-	echo "Running Solr as the $(id -u -n) user"
+	echo "Running Solr as the '$(id -u -n)' user"
 	SOLR_USER="$(id -u -n)"
 fi
 

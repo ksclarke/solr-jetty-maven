@@ -9,8 +9,8 @@ A Solr project that runs in a Jetty/Maven context. It's been tested with Maven 3
 Introduction
 =================================================================================
 
-To install, you'll need Git, Java (>= 1.6), and Maven 3 installed. Once those are
-installed through your system's package manager, you can get this code using git:
+To install, you'll need Git, Java (>= 1.6), and Maven 3. Once those are installed
+and setup, you can download the solr-jetty-maven code using Git:
 
   git clone git://github.com/ksclarke/solr-jetty-maven.git
 
@@ -25,12 +25,14 @@ To start a slave Solr instance:
 
 To use Solr's administrative / dashboard UI, go to: http://localhost:8983/#/
 
-To configure a Solr master or slave instance, look at the configuration in the
-project's pom.xml profiles section.  Those values can be overridden in a Maven
-settings.xml file found at either:
+In order to run a master and slave on the same machine, you'll need to tweak the
+Jetty settings in the pom.xml file.  The default setup is intended for the most
+common use case where the master and slave will be run on different machines/VMs.
 
-  $M2_HOME/conf/settings.xml
-  ${user.home}/.m2/settings.xml
+
+=================================================================================
+Warning for those familiar with Maven
+=================================================================================
 
 Note that, currently, running:
 
@@ -40,10 +42,34 @@ will "clean" (i.e., delete) the Solr workspace (index, snapshots, etc.)
 
 
 =================================================================================
+Installation and Configuration
+=================================================================================
+  
+For installing on a server, you might want to follow these steps (feel free to
+tweak them to fit your needs (and environment)... or to ignore them altogether):
+
+1) git clone git://github.com/ksclarke/solr-jetty-maven.git
+2) mv solr-jetty-maven /opt
+3) sudo chown -R apache:apache /opt/solr-jetty-maven
+     (if RedHat-based system; if Debian-based system, use: www-data:www-data)
+
+You can then run it using the steps in the "Introduction" (using `sudo -u <user>`
+to run it as the Web user) or you can run it as a system service using the steps
+in the "Running as a System Service" section below.
+
+To customize the configuration of a Solr master or slave instance, look at the
+configuration properties in the project's pom.xml profiles section. The values
+can be overridden in a Maven settings.xml file found at either:
+
+  $M2_HOME/conf/settings.xml
+  ${user.home}/.m2/settings.xml
+
+
+=================================================================================
 Running as a System Service
 =================================================================================
 
-There is a beta Init.d script that will allow the Solr service to be started in a
+There is a beta init.d script that will allow the Solr service to be started in a
 standard Linux way.  First, check it to ensure that the user who will be running
 the service, the location of the service (ie, where you've checkout out the code)
 and all the other parameters match your local system... (edit to fit your needs).
@@ -62,7 +88,7 @@ Once this is done, you should be able to manually start and stop the service:
   sudo service solr status
   sudo service solr stop
 
-You can remove the service from the system's automatic runlevels by typing:
+You can remove the service from the system's runlevels by typing:
 
   sudo update-rc.d -f solr remove
 
