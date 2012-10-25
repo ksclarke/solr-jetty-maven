@@ -79,7 +79,7 @@ start)
 		if grep -q "Started Jetty Server" $SOLR_LOGFILE
 		then
 			started=true
-    		break
+			break
 		fi
 
 		sleep 1
