@@ -1,6 +1,6 @@
 #!/bin/bash
 #-----------------------------------------------------
-# solr-initd v0.0.1
+# solr-initd v0.0.2
 #-----------------------------------------------------
 # Script for running solr as a service under initd.
 #
