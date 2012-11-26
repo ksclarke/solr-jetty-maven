@@ -42,25 +42,25 @@ SOLR_OPTIONS=""
 # Find out what Linux distribution we're running under
 DISTRIB_ID=`lsb_release -i |awk ' { print $3 }'`
 
+# Give the Web user a shell to run `mvn` from (most don't have this by default)
+TMPSHELL="-s /bin/bash"
+
 # Try to correctly set the user who should be used to run the server
 if [ $DISTRIB_ID == 'RedHatEnterpriseServer' ] \
 	|| [ $DISTRIB_ID == 'RedHat' ] \
 	|| [ $DISTRIB_ID == 'Fedora' ] \
 	|| [ $DISTRIB_ID == 'CentOS' ]; then
 	SOLR_USER="apache"
-	TMPSHELL="-s /bin/bash"
 elif [ $DISTRIB_ID == 'Ubuntu' ] \
 	|| [ $DISTRIB_ID == 'Debian' ]; then
 	SOLR_USER="www-data"
-	TMPSHELL=""
 else
 	echo "Running Solr as the '$(id -u -n)' user"
 	SOLR_USER="$(id -u -n)"
-	TMPSHELL=""
 fi
 
 # Configs that shouldn't need to be changed
-SOLR_START_CMD="sudo -u ${SOLR_USER} $TMPSHELL MAVEN_OPTIONS=${MAVEN_OPTIONS} $MVNCMD ${SOLR_OPTIONS} jetty:run"
+SOLR_START_CMD="sudo -u ${SOLR_USER} MAVEN_OPTS=${MAVEN_OPTIONS} $TMPSHELL $MVNCMD ${SOLR_OPTIONS} jetty:run"
 SOLR_STOP_CMD="sudo -u ${SOLR_USER} $MVNCMD -q jetty:stop"
 
 SOLR_PIDFILE=/var/run/solr.pid
