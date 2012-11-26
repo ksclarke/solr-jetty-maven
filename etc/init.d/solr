@@ -36,8 +36,8 @@ MAVEN_OPTIONS=""
 #MAVEN_OPTIONS="-Xmx1024m"
 
 SOLR_OPTIONS=""
-#SOLR_OPTIONS="-Denable.master=true"
-#SOLR_OPTIONS="-Denable.slave=true"
+#SOLR_OPTIONS="-Denv.type=master"
+#SOLR_OPTIONS="-Denv.type=slave"
 
 # Find out what Linux distribution we're running under
 DISTRIB_ID=`lsb_release -i |awk ' { print $3 }'`
