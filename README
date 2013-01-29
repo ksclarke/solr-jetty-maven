@@ -23,7 +23,7 @@ To start a slave Solr instance:
   1) Edit the <master.solr.url> element in the pom.xml to point to the master
   2) Then, type: mvn -Denv.type=slave process-resources jetty:run
 
-To use Solr's administrative / dashboard UI, go to: http://localhost:8983/#/
+To use Solr's admin / dashboard UI, go to: http://localhost:8983/solr/#/
 
 In order to run a master and slave on the same machine, you'll need to tweak the
 Jetty settings in the pom.xml file.  The default setup is intended for the most
