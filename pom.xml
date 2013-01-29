@@ -65,6 +65,7 @@
           <include>**/*.txt</include>
           <include>**/*.conf</include>
           <include>**/*.xsl</include>
+          <include>**/*.vm</include>
         </includes>
       </resource>
     </resources>
