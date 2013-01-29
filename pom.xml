@@ -66,6 +66,8 @@
           <include>**/*.conf</include>
           <include>**/*.xsl</include>
           <include>**/*.vm</include>
+          <include>**/*.css</include>
+          <include>**/*.js</include>
         </includes>
       </resource>
     </resources>
