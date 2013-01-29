@@ -97,13 +97,11 @@ You can remove the service from the system's runlevels by typing:
 Replication Options
 =================================================================================
 
-For a first pass, this is still configured to do replication in the older (>= 1.4
-version) style (which uses polling).  With the release of version 4.0, there is a
-new method for replication, SolrCloud (which uses pushes).  I will look into this
-new method and see what needs to be done to configure it through a Maven POM.
-
-http://wiki.apache.org/solr/SolrReplication
-http://wiki.apache.org/solr/SolrCloud
+There is a new SolrCloud option that allows Solr to use an automated approach to
+sharding.  After reviewing it, I've concluded its "use case" is beyond the scope
+of what I want to accomplish with this project's Solr-in-Maven approach.  This
+project supports the use of a master-slave approach to scaling up Solr, but will
+not try to fit the Zookeeper/Solr configuration into this simple-to-use approach.
 
 
 =================================================================================
