@@ -41,6 +41,16 @@
       <artifactId>solr-solrj</artifactId>
       <version>4.0.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-velocity</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-clustering</artifactId>
+      <version>4.0.0</version>
+    </dependency>
   </dependencies>
   <build>
     <filters>
@@ -108,7 +118,7 @@
             </connector>
           </connectors>
           <webAppConfig>
-              <contextPath>/</contextPath>
+              <contextPath>/solr</contextPath>
           </webAppConfig>
           <stopKey>cough</stopKey>
           <stopPort>8998</stopPort>
@@ -128,6 +138,10 @@
             <systemProperty>
               <name>logback.configurationFile</name>
               <value>src/main/resources/logback.xml</value>
+            </systemProperty>
+            <systemProperty>
+              <name>solr.clustering.enabled</name>
+              <value>true</value>
             </systemProperty>
           </systemProperties>
         </configuration>
