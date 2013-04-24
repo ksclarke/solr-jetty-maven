@@ -192,7 +192,7 @@
         <enable.slave>true</enable.slave>
         <poll.interval>00:00:20</poll.interval>
         <!-- TODO: work on making cores easily configurable(?) -->
-        <master.solr.url>http://localhost:8983/collection1/replication</master.solr.url>
+        <master.solr.url>http://localhost:8983/solr/${solr.core.name}</master.solr.url>
 
         <!-- If using HTTP auth on master to prevent unauthorized updates -->
         <master.solr.httpauth.u>username</master.solr.httpauth.u>
