@@ -4,52 +4,80 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>info.freelibrary</groupId>
   <artifactId>solr-jetty-maven</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>A Solr webapp that runs in its own Jetty/Maven context</name>
+  <packaging>maven-plugin</packaging>
+  <version>0.0.2-SNAPSHOT</version>
+  <name>Solr-Jetty-Maven</name>
+  <description>A Solr webapp that runs in its own Jetty/Maven context</description>
   <url>http://github.com/ksclarke/solr-jetty-maven</url>
   <dependencies>
+    <!-- Below are the required Solr jars -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr</artifactId>
+      <version>4.3.0</version>
+      <type>war</type>
     </dependency>
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-velocity</artifactId>
+      <version>4.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-clustering</artifactId>
+      <version>4.3.0</version>
+    </dependency>
+    <!-- Below are the dependencies for our Maven mojos -->
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>3.0.5</version>
+      <exclusions>
+        <!-- This conflicts with a newer guava in solr -->
+        <exclusion>
+          <groupId>org.sonatype.sisu</groupId>
+          <artifactId>sisu-guava</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.plugin-tools</groupId>
+      <artifactId>maven-plugin-annotations</artifactId>
+      <version>3.2</version>
+    </dependency>
+    <!-- Below are the classes so we can use SLF4J -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.0.13</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.7.5</version>
+    </dependency>
+    <!-- Below are some libraries I find useful -->
     <dependency>
       <groupId>org.ccil.cowan.tagsoup</groupId>
       <artifactId>tagsoup</artifactId>
       <version>1.2.1</version>
-    </dependency>    
+    </dependency>
     <dependency>
-    	<groupId>net.sf.opencsv</groupId>
-    	<artifactId>opencsv</artifactId>
-    	<version>2.3</version>
+      <groupId>net.sf.opencsv</groupId>
+      <artifactId>opencsv</artifactId>
+      <version>2.3</version>
     </dependency>
     <dependency>
       <groupId>xom</groupId>
       <artifactId>xom</artifactId>
       <version>1.2.5</version>
     </dependency>
+    <!-- Below are the dependencies for our tests -->
     <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr</artifactId>
-      <version>4.2.1</version>
-      <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-solrj</artifactId>
-      <version>4.2.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-velocity</artifactId>
-      <version>4.2.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-clustering</artifactId>
-      <version>4.2.1</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
@@ -72,6 +100,28 @@
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+          <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+        </configuration>
+        <executions>
+          <execution>
+            <id>mojo-descriptor</id>
+            <goals>
+              <goal>descriptor</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>help-goal</id>
+            <goals>
+              <goal>helpmojo</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
@@ -121,7 +171,7 @@
             </connector>
           </connectors>
           <webAppConfig>
-              <contextPath>/solr</contextPath>
+            <contextPath>/solr</contextPath>
           </webAppConfig>
           <stopKey>cough</stopKey>
           <stopPort>8998</stopPort>
@@ -191,7 +241,6 @@
       <properties>
         <enable.slave>true</enable.slave>
         <poll.interval>00:00:20</poll.interval>
-        <!-- TODO: work on making cores easily configurable(?) -->
         <master.solr.url>http://localhost:8983/solr/${solr.core.name}</master.solr.url>
 
         <!-- If using HTTP auth on master to prevent unauthorized updates -->
@@ -202,7 +251,7 @@
       </properties>
     </profile>
   </profiles>
-<!--
+  <!--
   <repositories>
     <repository>
       <id>freelib-snapshots</id>
