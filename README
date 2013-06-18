@@ -30,9 +30,9 @@ Jetty's settings in the pom.xml file. The default setup is intended for the
 most common case where the master and slave will be run on different machines.
 
 
-===============================================================================
+================================================================================
 Warning for those familiar with Maven
-===============================================================================
+================================================================================
 
 Note that, currently, running:
 
