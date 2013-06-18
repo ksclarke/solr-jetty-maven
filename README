@@ -1,20 +1,20 @@
-=================================================================================
+================================================================================
 solr-jetty-maven
-=================================================================================
+================================================================================
 
-A Solr project that runs in a Jetty/Maven context. It's been tested with Maven 3.
+A Solr project that runs in a Jetty/Maven context. It requires Maven 3.
 
 
-=================================================================================
+================================================================================
 Introduction
-=================================================================================
+================================================================================
 
-To install, you'll need Git, Java (>= 1.6), and Maven 3. Once those are installed
+To install, you'll need Git, Java (>= 1.6), and Maven. Once those are installed
 and setup, you can download the solr-jetty-maven code using Git:
 
   git clone git://github.com/ksclarke/solr-jetty-maven.git
 
-To start a standalone / master Solr instance, change into the directory and type:
+To start a standalone/master Solr instance, change into the directory and type:
 
   mvn process-resources jetty:run
 
@@ -23,16 +23,16 @@ To start a slave Solr instance:
   1) Edit the <master.solr.url> element in the pom.xml to point to the master
   2) Then, type: mvn -Denv.type=slave process-resources jetty:run
 
-To use Solr's admin / dashboard UI, go to: http://localhost:8983/solr/#/
+To use Solr's admin/dashboard UI, go to: http://localhost:8983/solr/#/
 
-In order to run a master and slave on the same machine, you'll need to tweak the
-Jetty settings in the pom.xml file.  The default setup is intended for the most
-common use case where the master and slave will be run on different machines/VMs.
+In order to run a master and slave on the same machine, you'll need to tweak
+Jetty's settings in the pom.xml file. The default setup is intended for the
+most common case where the master and slave will be run on different machines.
 
 
-=================================================================================
+===============================================================================
 Warning for those familiar with Maven
-=================================================================================
+===============================================================================
 
 Note that, currently, running:
 
@@ -41,20 +41,20 @@ Note that, currently, running:
 will "clean" (i.e., delete) the Solr workspace (index, snapshots, etc.)
 
 
-=================================================================================
+================================================================================
 Installation and Configuration
-=================================================================================
+================================================================================
   
 For installing on a server, you might want to follow these steps (feel free to
-tweak them to fit your needs (and environment)... or to ignore them altogether):
+tweak them to fit your needs (and environment) or to ignore them altogether):
 
 1) git clone git://github.com/ksclarke/solr-jetty-maven.git
 2) mv solr-jetty-maven /opt
 3) sudo chown -R apache:apache /opt/solr-jetty-maven
      (if RedHat-based system; if Debian-based system, use: www-data:www-data)
 
-You can then run it using the steps in the "Introduction" (using `sudo -u <user>`
-to run it as the Web user) or you can run it as a system service using the steps
+You can then run it using the steps in the "Introduction" using `sudo -u <user>`
+to run it as the Web user, or you can run it as a system service using the steps
 in the "Running as a System Service" section below.
 
 To customize the configuration of a Solr master or slave instance, look at the
@@ -65,14 +65,14 @@ can be overridden in a Maven settings.xml file found at either:
   ${user.home}/.m2/settings.xml
 
 
-=================================================================================
+================================================================================
 Running as a System Service
-=================================================================================
+================================================================================
 
-There is a beta init.d script that will allow the Solr service to be started in a
-standard Linux way.  First, check it to ensure that the user who will be running
-the service, the location of the service (ie, where you've checkout out the code)
-and all the other parameters match your local system... (edit to fit your needs).
+There is a beta init.d script that will allow the Solr service to be started in
+a standard Linux way. First, check to ensure that the user who will be running
+the service, the location of the service (i.e., where you've checked out the
+project's code), and all the other project parameters match your local system.
 
 After that, you can install it by copying it to the /etc/init.d directory:
 
@@ -93,20 +93,20 @@ You can remove the service from the system's runlevels by typing:
   sudo update-rc.d -f solr remove
 
 
-=================================================================================
+================================================================================
 Replication Options
-=================================================================================
+================================================================================
 
 There is a new SolrCloud option that allows Solr to use an automated approach to
-sharding.  After reviewing it, I've concluded its "use case" is beyond the scope
-of what I want to accomplish with this project's Solr-in-Maven approach.  This
+sharding. After reviewing it, I've concluded its use case is beyond the scope
+of what I want to accomplish with this project's Solr-in-Maven approach. This
 project supports the use of a master-slave approach to scaling up Solr, but will
-not try to fit the Zookeeper/Solr configuration into this simple-to-use approach.
+not try to support SolrCloud's use of Zookeeper.
 
 
-=================================================================================
+================================================================================
 Contact
-=================================================================================
+================================================================================
 
 This is a pretty straightforword use of Solr, but if you have questions about it
 feel free to contact me, Kevin S. Clarke, at ksclarke@gmail.com
