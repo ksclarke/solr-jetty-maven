@@ -45,6 +45,11 @@
       <artifactId>maven-plugin-annotations</artifactId>
       <version>3.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-core</artifactId>
+      <version>3.0.5</version>
+    </dependency>
     <!-- Below are the classes so we can use SLF4J -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -88,6 +93,10 @@
       <resource>
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
+        <excludes>
+          <!-- We copy this (via mojo) only if needed and only once -->
+          <exclude>solr.xml</exclude>
+        </excludes>
         <includes>
           <include>**/*.xml</include>
           <include>**/*.txt</include>
@@ -135,8 +144,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.5.1</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
       <plugin>
