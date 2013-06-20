@@ -2,7 +2,8 @@
 solr-jetty-maven
 =============================================================================
 
-A Solr project that runs in a Jetty/Maven context. It requires Maven 3.
+A Solr project that runs in a Jetty container in a Maven 3 environment. It
+also contains a Solr Maven plugin that allows you to create and delete cores.
 
 
 =============================================================================
@@ -29,17 +30,6 @@ To use Solr's admin/dashboard UI, go to: http://localhost:8983/solr/#/
 In order to run a master and slave on the same machine, you'll need to tweak
 Jetty's settings in the pom.xml file. The default setup is intended for the
 most common case where the master and slave will be on different machines.
-
-
-=============================================================================
-Warning for those familiar with Maven
-=============================================================================
-
-Note that, currently, running:
-
-  mvn clean
-
-will "clean" (i.e., delete) the Solr workspace (index, snapshots, etc.)
 
 
 =============================================================================
@@ -71,6 +61,42 @@ found at either of the following locations:
 
 If neither of these settings files exist, you can create one. See the Maven
 documentation for what a settings.xml file should contain.
+
+
+=============================================================================
+Creating and Deleting Solr Cores
+=============================================================================
+
+There is a default core that comes configured called 'collection1' but if you
+want to create other cores there are two Maven goals that can be used.
+
+To create a new core (before you start the Jetty server), type:
+
+  mvn info.freelibrary:solr-jetty-maven:create-core -Dsolr.core.name=corename
+
+To delete an old core (after the Jetty server has been stopped), type:
+
+  mvn info.freelibrary:solr-jetty-maven:delete-core -Dsolr.core.name=corename
+
+If you want to save yourself some typing, you can add the following markup to
+your settings.xml file (inside the <settings> tags):
+
+  <pluginGroups>
+    <pluginGroup>info.freelibrary</pluginGroup>
+  </pluginGroups>
+
+Then you will be able to run the Solr goals by just typing:
+
+  mvn solr:create-core -Dsolr.core.name=corename
+
+and
+
+  mvn solr:create-core -Dsolr.core.name=corename
+
+To see cores you've created (once you've started Jetty), you can go to the
+administrative Web interface:
+
+  http://localhost:8983/solr/#/~cores/
 
 
 =============================================================================
@@ -111,6 +137,17 @@ automated approach to sharding. After reviewing it, I've concluded its use
 case is beyond the scope of what I want to accomplish with this project's
 Solr-in-Maven approach. This project supports the use of slaves to scale out
 a search service, but it will not support the new SolrCloud/Zookeeper setup.
+
+
+=============================================================================
+Warning for those familiar with Maven
+=============================================================================
+
+Note that, currently, running:
+
+  mvn clean
+
+will "clean" (i.e., delete) the Solr workspace (index, snapshots, etc.)
 
 
 =============================================================================
