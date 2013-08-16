@@ -8,7 +8,7 @@ Just as a note, there isn't much original code in this project.  Most of its val
 
 _This project is not connected with the Solr project in any way.  It's just an attempt to repackage it in a clean, simple, native-Maven way._
 
-_If you're looking for information about Solr itself, you'll want to <a href="http://lucene.apache.org/solr/">visit their website</a>._
+_If you're looking for information about Solr, you'll want to <a href="http://lucene.apache.org/solr/">visit their website</a>._
 
 ### Getting Started
 
