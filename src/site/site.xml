@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Solr-Jetty-Maven"
+    xmlns="http://maven.apache.org/DECORATION/1.3.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.3.0 http://maven.apache.org/xsd/decoration-1.3.0.xsd">
+    
+    <bannerLeft>
+        <name>Solr-Jetty-Maven</name>
+        <href>http://projects.freelibrary.info/solr-jetty-maven</href>
+    </bannerLeft>
+    
+    <publishDate position="bottom" format="yyyy-MM-dd" />
+    <version position="bottom" />
+    <googleAnalyticsAccountId>${fl-ga-accountId}</googleAnalyticsAccountId>
+    
+    <skin>
+        <groupId>lt.velykis.maven.skins</groupId>
+        <artifactId>reflow-maven-skin</artifactId>
+        <version>1.0.0</version>
+    </skin>
+    
+    <custom>
+        <reflowSkin>
+            <protocolRelativeURLs>true</protocolRelativeURLs>
+            <smoothScroll>true</smoothScroll>
+            <theme>site</theme>
+            <highlightJs>true</highlightJs>
+            <highlightJsTheme>github</highlightJsTheme>
+            <brand>
+                <name>FreeLibrary Project</name>
+                <href>http://freelibrary.info</href>
+            </brand>
+            <slogan>A project that runs Solr in Jetty using Maven</slogan>
+            <titleTemplate>%2$s | %1$s</titleTemplate>
+            <toc>false</toc> <!-- top -->
+            <tocTopMax>6</tocTopMax>
+            <topNav>Read the Docs</topNav>
+            <bottomNav maxSpan="16" >
+                <column>Project Links</column>
+                <column>Contributions|Donations</column>
+                <column>Developer Reports</column>
+                <column>reports|Site Copyright</column>
+            </bottomNav>
+            <pages>
+                <index project="solr-jetty-maven">
+                    <titleTemplate>Solr-Jetty-Maven Project</titleTemplate>
+                    <breadcrumbs>false</breadcrumbs>
+                    <toc>false</toc>
+                    <markPageHeader>true</markPageHeader>
+                    <sections>
+                        <columns>2</columns>
+                        <body/>
+                    </sections>
+                </index>
+                <contribute>
+                    <breadcrumbs>false</breadcrumbs>
+                </contribute>
+                <source-repository>
+                    <highlightJs>false</highlightJs>
+                </source-repository>
+                <issue-tracking>
+                    <highlightJs>false</highlightJs>
+                    <toc>false</toc>
+                </issue-tracking>
+                <license>
+                    <highlightJs>false</highlightJs>
+                    <toc>false</toc>
+                </license>
+                <project-info>
+                    <toc>false</toc>
+                </project-info>
+            </pages>
+        </reflowSkin>
+    </custom>
+    
+    <body>
+        <head>
+            <link rel="author" href="https://plus.google.com/106980687849423472398/about"/>
+        </head>
+        
+        <links>
+            <item name="Fork on GitHub" href="https://github.com/ksclarke/solr-jetty-maven" target="_new" />
+            <item name="Download" href="https://github.com/ksclarke/solr-jetty-maven/archive/master.zip" />
+        </links>
+
+        <!-- top navbar -->
+        <menu name="Read the Docs">
+            <item name="Javadocs" href="apidocs/index.html" target="_new" />
+            <item name="Issues" href="https://github.com/ksclarke/solr-jetty-maven/issues" target="_new" />
+            <item name="License" href="license.html" />
+        </menu>
+
+        <!-- bottom navbar -->
+        <menu name="Project Links">
+            <item name="Home Page" href="index.html#" />
+            <item name="GitHub Page" href="https://github.com/ksclarke/solr-jetty-maven" target="_new" />
+            <item name="Contact Info" href="team-list.html" />
+            <item name="Brief Summary" href="project-summary.html" />
+        </menu>
+        <menu name="Contributions">
+            <item name="Test Drive the Project" href="testers-welcome.html" />
+            <item name="Help Improve the Docs" href="documenters-welcome.html" />
+            <item name="Translators Welcome" href="translaters-welcome.html" />
+            <item name="Submit a Pull Request" href="coders-welcome.html" />
+        </menu>
+        <menu name="Donations">
+            <item name="Buy Me a Tea (or Beer)" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=JJPW249LVRNZW" target="_new" />
+        </menu>
+        <menu name="Developer Reports">
+            <item name="FindBugs Report" href="findbugs.html" />
+            <item name="Test Coverage" href="cobertura/index.html" target="_new" />
+            <item name="Changelog" href="changelog.html" />
+            <item name="File Activity" href="file-activity.html" />
+        </menu>
+        <menu name="Maven Docs" ref="reports"/>
+        <menu name="Site Copyright">
+            <item name="GNU Free Documentation License" href="http://www.gnu.org/licenses/fdl-1.3-standalone.html" target="_new" />
+        </menu>
+    </body>
+</project>
