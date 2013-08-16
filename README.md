@@ -12,11 +12,11 @@ To start a standalone/master Solr instance, change into the project directory an
 
     mvn install jetty:run
 
-To start a slave Solr instance, edit the <master.solr.url> element in the pom.xml to point to the master and then type:
+To start a slave Solr instance, edit the <master.solr.url> element in the <a href="https://github.com/ksclarke/solr-jetty-maven/blob/master/pom.xml">pom.xml</a> to point to the master and then type:
 
     mvn -Denv.type=slave process-resources jetty:run
 
-To use Solr's admin/dashboard UI, go to: http://localhost:8983/solr/#/
+To use Solr's admin/dashboard UI, go to: <a href="http://localhost:8983/solr/#/">http://localhost:8983/solr/#/</a>
 
 In order to run a master and slave on the same machine, you'll need to tweak Jetty's settings in the pom.xml file. The default setup is intended for the most common case where the master and slave will be on different machines.
 
@@ -40,7 +40,7 @@ overridden (without touching the pom.xml file) in a Maven settings.xml file foun
     $M2_HOME/conf/settings.xml
     ${user.home}/.m2/settings.xml
 
-If neither of these settings files exist, you can create one. See the Maven documentation for what a settings.xml file should contain.
+If neither of these settings files exist, you can create one. See the <a href="http://maven.apache.org/settings.html">Maven documentation</a> for what a settings.xml file should contain.
 
 ### Creating and Deleting Solr Cores
 
@@ -68,7 +68,7 @@ and
 
     mvn solr:delete-core -Dsolr.core.name=corename
 
-To see cores you've created (once you've started Jetty), you can go to the administrative Web interface: http://localhost:8983/solr/#/~cores/
+To see cores you've created (once you've started Jetty), you can go to the administrative Web interface: <a href="http://localhost:8983/solr/#/~cores/">http://localhost:8983/solr/#/~cores/</a>
 
 ### Running as a System Service
 
