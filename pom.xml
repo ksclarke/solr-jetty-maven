@@ -40,6 +40,16 @@
       <timezone>America/New_York</timezone>
     </developer>
   </developers>
+  <contributors>
+    <contributor>
+      <name>William Hattenhauer</name>
+      <url>http://www.linkedin.com/in/williamhattenhauer/</url>
+      <roles>
+        <role>contributor</role>
+      </roles>
+      <timezone>America/Los_Angeles</timezone>
+    </contributor>
+  </contributors>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

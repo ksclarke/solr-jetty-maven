@@ -85,6 +85,7 @@
 
         <!-- top navbar -->
         <menu name="Read the Docs">
+            <item name="Introduction" href="index.html" />
             <item name="Javadocs" href="apidocs/index.html" target="_new" />
             <item name="Issues" href="https://github.com/ksclarke/solr-jetty-maven/issues" target="_new" />
             <item name="License" href="license.html" />
