@@ -24,8 +24,6 @@
             <protocolRelativeURLs>true</protocolRelativeURLs>
             <smoothScroll>true</smoothScroll>
             <theme>site</theme>
-            <highlightJs>true</highlightJs>
-            <highlightJsTheme>github</highlightJsTheme>
             <brand>
                 <name>FreeLibrary Project</name>
                 <href>http://freelibrary.info</href>
