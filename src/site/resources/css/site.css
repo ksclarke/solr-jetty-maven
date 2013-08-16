@@ -60,3 +60,7 @@ pre {
 .nav-header {
   color: #666;
 }
+
+.imageLink {
+  padding-right: 4px;
+}

@@ -36,7 +36,7 @@
             <bottomNav maxSpan="16" >
                 <column>Project Links</column>
                 <column>Contributions|Donations</column>
-                <column>Developer Reports</column>
+                <column>Developer Reports|Build Status</column>
                 <column>reports|Site Copyright</column>
             </bottomNav>
             <pages>
@@ -85,7 +85,7 @@
         <menu name="Read the Docs">
             <item name="Introduction" href="index.html" />
             <item name="Javadocs" href="apidocs/index.html" target="_new" />
-            <item name="Issues" href="https://github.com/ksclarke/solr-jetty-maven/issues" target="_new" />
+            <item name="Issues Queue" href="https://github.com/ksclarke/solr-jetty-maven/issues" target="_new" />
             <item name="License" href="license.html" />
         </menu>
 
@@ -110,6 +110,12 @@
             <item name="Test Coverage" href="cobertura/index.html" target="_new" />
             <item name="Changelog" href="changelog.html" />
             <item name="File Activity" href="file-activity.html" />
+        </menu>
+        <menu name="Build Status">
+            <item img="https://travis-ci.org/ksclarke/solr-jetty-maven.png?branch=master"
+                name="for 'master'" href="https://travis-ci.org/ksclarke/solr-jetty-maven"/>
+            <item img="https://travis-ci.org/ksclarke/solr-jetty-maven.png?branch=develop"
+                name="for 'develop'" href="https://travis-ci.org/ksclarke/solr-jetty-maven"/>
         </menu>
         <menu name="Maven Docs" ref="reports"/>
         <menu name="Site Copyright">

@@ -4,7 +4,7 @@ Solr-Jetty-Maven is a simple Maven wrapper around the Solr search service.  It a
 
 Just as a note, there isn't much original code in this project.  Most of its value is in the Maven configuration.  There are a couple of Maven mojos, to make things like creating and deleting new Solr cores easier (see below for information on using them), but that's about it.
 
-**Update:** With Solr 4.x, there is a new SolrCloud option that allows Solr to use an automated approach to sharding. After reviewing it, I've concluded the use case for it is beyond the scope of what I want to accomplish with this project's Solr-in-Maven approach. This project supports the use of slaves to scale out a search service, but it will not attempt to support the new SolrCloud / Zookeeper setup.
+**[ Update:** With Solr 4.x, there is a new SolrCloud option that allows Solr to use an automated approach to sharding. After reviewing it, I've concluded the use case for it is beyond the scope of what I want to accomplish with this project. This project supports the use of slaves to scale out a search service, but it will not attempt to support the SolrCloud / Zookeeper stack. **]**
 
 _This project is not connected with the Solr project in any way.  It's just an attempt to repackage it in a clean, simple, native-Maven way._
 
@@ -12,7 +12,7 @@ _If you're looking for information about Solr, you'll want to <a href="http://lu
 
 ### Getting Started
 
-To install, you'll need Git, Java (>= 7), and Maven (>= 3). Once those are installed and setup, you can download the solr-jetty-maven code using Git:
+To install, you'll need Git, Java (>= 7), and Maven (>= 3). Once those are installed and setup, you can <a href="https://github.com/ksclarke/solr-jetty-maven/archive/master.zip">download</a> the solr-jetty-maven code directly or clone it using Git:
 
     git clone git://github.com/ksclarke/solr-jetty-maven.git
 
