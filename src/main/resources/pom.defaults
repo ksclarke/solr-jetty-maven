@@ -1,7 +1,9 @@
 # Default properties used by our profiles in the pom.xml file
-# Users should not need to touch this file
-# These properties can be overridden via other methods
+#
+# You should not need to touch this file; these properties can be overridden
+#   via the Maven settings.xml file (cf. http://maven.apache.org/settings.html)
 
+jetty.stop.key = cough
 master.solr.url = 
 enable.master = false
 enable.slave = false
@@ -10,3 +12,6 @@ poll.interval = 00:00:20
 master.solr.httpauth.u = username
 master.solr.httpauth.pw = password
 
+# These are specific to building the site, not really solr-jetty-maven
+ga.accountId = UA-XXXXXXXX-X
+paypal.button = https://www.paypal.com/us/cgi-bin/?cmd=_donate-intro-outside
