@@ -34,9 +34,9 @@
             <tocTopMax>6</tocTopMax>
             <topNav>Read the Docs</topNav>
             <bottomNav maxSpan="16" >
-                <column>Project Links</column>
+                <column>Project Links|Build Status</column>
                 <column>Contributions|Donations</column>
-                <column>Developer Reports|Build Status</column>
+                <column>Developer Reports</column>
                 <column>reports|Site Copyright</column>
             </bottomNav>
             <pages>
@@ -94,7 +94,6 @@
         <!-- bottom navbar -->
         <menu name="Project Links">
             <item name="Home Page" href="index.html#" />
-            <item name="GitHub Page ↗" href="https://github.com/ksclarke/solr-jetty-maven" target="_new" />
             <item name="Contact Info" href="team-list.html" />
             <item name="Brief Summary" href="project-summary.html" />
         </menu>
@@ -109,9 +108,11 @@
         </menu>
         <menu name="Developer Reports">
             <item name="FindBugs Report" href="findbugs.html" />
-            <item name="Test Coverage" href="cobertura/index.html" target="_new" />
-            <item name="Changelog" href="changelog.html" />
-            <item name="File Activity" href="file-activity.html" />
+            <item name="Test Coverage ↗" href="cobertura/index.html" target="_new" />
+            <item name="PMD Report" href="pmd.html" />
+            <item name="Checkstyle Report" href="checkstyle.html" />
+            <item name="JDepend Metrics" href="jdepend-report.html" />
+            <item name="Tag List" href="taglist.html"/>
         </menu>
         <menu name="Build Status">
             <item img="https://travis-ci.org/ksclarke/solr-jetty-maven.png?branch=master"
