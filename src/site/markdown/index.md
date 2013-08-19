@@ -1,6 +1,6 @@
 ### Introduction
 
-Solr-Jetty-Maven is a simple Maven wrapper around the Solr search service.  It allows Solr to be run from within a Maven project, using Jetty as the server.  It's designed to provide a drop dead simple way to run Solr, but it also includes init.d scripts so that it can be run in a more traditional way (i.e., as a system service on a Linux machine).
+Solr-Jetty-Maven is a simple Maven wrapper around the Solr search service.  It allows Solr to be run from within a Maven project, using Jetty as the server.  It's designed to provide a drop dead simple way to run Solr, but it also includes init.d scripts so that it can be run as a system service on a Linux machine.
 
 Just as a note, there isn't much original code in this project.  Most of its value is in the Maven configuration.  There are a couple of Maven mojos, to make things like creating and deleting new Solr cores easier (see below for information on using them), but that's about it.
 
