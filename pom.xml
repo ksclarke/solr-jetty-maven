@@ -136,13 +136,13 @@
     </filters>
     <resources>
       <!-- This supplies the site's GA account ID -->
-      <resource>
+<!--      <resource>
         <directory>src/main/site</directory>
         <filtering>true</filtering>
         <includes>
           <include>**/site.xml</include>
         </includes>
-      </resource>
+      </resource>-->
       <!-- These resources are the project's -->
       <resource>
         <directory>src/main/resources</directory>
@@ -233,6 +233,26 @@
         <configuration>
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/site</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>src/site/resources/eclipse</directory>
+                </resource>
+                <resource>
+                  <directory>src/site/resources/checkstyle</directory>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -367,6 +387,11 @@
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-checkstyle-plugin</artifactId>
               <version>2.10</version>
+              <configuration>
+                <consoleOutput>true</consoleOutput>
+                <configLocation>src/site/resources/checkstyle/checkstyle.xml</configLocation>
+                <suppressionsLocation>src/site/resources/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+              </configuration>
             </plugin>
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
