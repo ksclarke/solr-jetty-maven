@@ -53,32 +53,50 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <solr.version>4.4.0</solr.version>
   </properties>
   <dependencies>
-    <!-- Below are the required Solr jars -->
+    <!-- here we can add any custom solr filters, analyzers, etc. -->
+    <dependency>
+      <groupId>info.freelibrary</groupId>
+      <artifactId>solr-iso639-filter</artifactId>
+      <version>${solr.version}.1-SNAPSHOT</version>
+    </dependency>
+    <!-- below here are the required solr jars we need to run solr -->
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-core</artifactId>
+      <version>${solr.version}</version>
+      <!-- explicitly include core to exclude hard-coded log4j dep in dep tree -->
+      <exclusions>
+        <exclusion> 
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+        <exclusion> 
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr</artifactId>
-      <version>4.3.0</version>
+      <version>${solr.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-velocity</artifactId>
-      <version>4.3.0</version>
+      <version>${solr.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-clustering</artifactId>
-      <version>4.3.0</version>
-    </dependency>
-    <!-- Below are the dependencies for our Maven mojos -->
+    <!-- below here are the dependencies for our Maven mojos -->
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>3.0.5</version>
       <exclusions>
-        <!-- This conflicts with a newer guava in solr -->
+        <!-- this conflicts with a newer guava in solr; exclude it -->
         <exclusion>
           <groupId>org.sonatype.sisu</groupId>
           <artifactId>sisu-guava</artifactId>
@@ -95,7 +113,7 @@
       <artifactId>maven-core</artifactId>
       <version>3.0.5</version>
     </dependency>
-    <!-- Below are the classes so we can use SLF4J -->
+    <!-- below are the classes so we can use logback as our logger -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -106,7 +124,7 @@
       <artifactId>jcl-over-slf4j</artifactId>
       <version>1.7.5</version>
     </dependency>
-    <!-- Below are some libraries I find useful -->
+    <!-- below are some unrelated libraries include because I find them useful -->
     <dependency>
       <groupId>org.ccil.cowan.tagsoup</groupId>
       <artifactId>tagsoup</artifactId>
@@ -122,7 +140,7 @@
       <artifactId>xom</artifactId>
       <version>1.2.5</version>
     </dependency>
-    <!-- Below are the dependencies for our tests -->
+    <!-- below are the dependencies for our tests -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -131,26 +149,14 @@
     </dependency>
   </dependencies>
   <build>
+    <!-- we copy files over to target and supply configured values in process -->
     <filters>
       <filter>src/main/resources/pom.defaults</filter>
     </filters>
     <resources>
-      <!-- This supplies the site's GA account ID -->
-<!--      <resource>
-        <directory>src/main/site</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>**/site.xml</include>
-        </includes>
-      </resource>-->
-      <!-- These resources are the project's -->
       <resource>
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
-        <excludes>
-          <!-- We copy this (via mojo) only if needed and only once -->
-          <exclude>solr.xml</exclude>
-        </excludes>
         <includes>
           <include>**/*.xml</include>
           <include>**/*.txt</include>
@@ -159,26 +165,50 @@
           <include>**/*.vm</include>
           <include>**/*.css</include>
           <include>**/*.js</include>
+          <include>**/*.properties</include>
         </includes>
       </resource>
     </resources>
     <plugins>
+      <!-- jetty plugin is how we run solr from within maven -->
       <plugin>
-        <groupId>org.mortbay.jetty</groupId>
+        <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>8.1.5.v20120716</version>
+        <version>9.0.5.v20130815</version>
+        <dependencies>
+          <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.0.13</version>
+          </dependency>
+          <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.5</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-core</artifactId>
+            <version>${solr.version}</version>
+            <!-- explicitly include core to exclude hard-coded log4j dependency -->
+            <exclusions>
+              <exclusion> 
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+              </exclusion>
+              <exclusion> 
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+              </exclusion>
+            </exclusions>
+          </dependency>
+        </dependencies>
         <configuration>
-          <connectors>
-            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-              <port>8983</port>
-              <maxIdleTime>60000</maxIdleTime>
-            </connector>
-          </connectors>
-          <webAppConfig>
+          <webApp>
             <contextPath>/solr</contextPath>
-          </webAppConfig>
+          </webApp>
           <stopKey>${jetty.stop.key}</stopKey>
-          <stopPort>8998</stopPort>
+          <stopPort>8993</stopPort>
           <scanIntervalSeconds>0</scanIntervalSeconds>
           <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
             <filename>target/yyyy_mm_dd.request.log</filename>
@@ -187,22 +217,38 @@
             <extended>false</extended>
             <logTimeZone>GMT</logTimeZone>
           </requestLog>
-          <systemProperties>
-            <systemProperty>
-              <name>org.mortbay.jetty.Request.maxFormContentSize</name>
-              <value>2000000</value>
-            </systemProperty>
-            <systemProperty>
-              <name>logback.configurationFile</name>
-              <value>src/main/resources/logback.xml</value>
-            </systemProperty>
-            <systemProperty>
-              <name>solr.clustering.enabled</name>
-              <value>true</value>
-            </systemProperty>
-          </systemProperties>
         </configuration>
       </plugin>
+      <!-- properties plugin sets system properties for the jetty plugin -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>set-system-properties</goal>
+            </goals>
+            <configuration>
+              <properties>
+                <property>
+                  <name>logback.configurationFile</name>
+                  <value>src/main/resources/logback.xml</value>
+                </property>
+                <property>
+                  <name>jetty.port</name>
+                  <value>8983</value>
+                </property>
+                <property>
+                  <name>solr.solr.home</name>
+                  <value>target/classes/solr/</value>
+                </property>
+              </properties>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- plugin plugin allows us to be able to run our solr mojos -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
@@ -226,6 +272,7 @@
           </execution>
         </executions>
       </plugin>
+      <!-- resources plugin is used for copying report files into site directory -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
@@ -254,6 +301,7 @@
           </execution>
         </executions>
       </plugin>
+      <!-- compiler plugin sets minimum JDK version: 1.7 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -263,26 +311,7 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.2.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <systemProperties>
-            <systemProperty>
-              <key>logback.configurationFile</key>
-              <value>src/main/resources/logback.xml</value>
-            </systemProperty>
-          </systemProperties>
-        </configuration>
-      </plugin>
+      <!-- site plugin creates a documentation site with reports, etc. -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
@@ -418,10 +447,10 @@
                 <tagListOptions>
                   <tagClasses>
                     <tagClass>
-                      <displayName>Todo Work</displayName>
+                      <displayName>TODOs</displayName>
                       <tags>
                         <tag>
-                          <matchString>TODOs</matchString>
+                          <matchString>TODO</matchString>
                           <matchType>exact</matchType>
                         </tag>
                       </tags>
@@ -477,8 +506,9 @@
       </extension>
     </extensions>
   </build>
+  <!-- profiles are how we package canned configurations for solr/jetty -->
   <profiles>
-    <!-- Default profile is a master/standalone Solr instance -->
+    <!-- default profile is a master/standalone Solr instance -->
     <profile>
       <id>default</id>
       <activation>
@@ -491,7 +521,7 @@
         <commit.reserve.duration>00:00:10</commit.reserve.duration>
       </properties>
     </profile>
-    <!-- This covers the case of wanting to specify env.type -->
+    <!-- this covers the case of wanting to specify env.type -->
     <profile>
       <id>master</id>
       <activation>
@@ -505,7 +535,7 @@
         <commit.reserve.duration>00:00:10</commit.reserve.duration>
       </properties>
     </profile>
-    <!-- If you have a master, you'll probably want read-only slaves -->
+    <!-- if you have a master, you'll probably want read-only slaves -->
     <profile>
       <id>slave</id>
       <activation>
@@ -526,6 +556,7 @@
         <max.number.of.backups>1</max.number.of.backups>
       </properties>
     </profile>
+    <!-- this profile is just for releasing new versions of this project -->
     <profile>
       <id>release-sign-artifacts</id>
       <activation>
@@ -553,12 +584,14 @@
       </build>
     </profile>
   </profiles>
+  <!-- we copy site documentation up to s3 so its available to everyone -->
   <distributionManagement>
     <site>
       <id>s3.site</id>
       <url>s3://projects.freelibrary.info/solr-jetty-maven</url>
     </site>
   </distributionManagement>
+  <!-- we publish new versions of this project through sonatype -->
   <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>

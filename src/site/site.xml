@@ -63,15 +63,16 @@
         <links>
             <item name="GitHub Page ↗"
                 href="https://github.com/ksclarke/solr-jetty-maven" target="_new" />
-            <item name="Download"
+            <item name="Download Zip"
                 href="https://github.com/ksclarke/solr-jetty-maven/archive/master.zip" />
         </links>
 
         <!-- top navbar -->
         <menu name="Read the Docs">
             <item name="Introduction" href="index.html" />
-            <item name="Javadocs" href="apidocs/index.html" />
-            <item name="Issues Queue ↗" href="https://github.com/ksclarke/solr-jetty-maven/issues" target="_new" />
+            <item name="Javadocs ↗" href="apidocs/index.html" target="_new" />
+            <item name="Issues Queue ↗" target="_new"
+                href="https://github.com/ksclarke/solr-jetty-maven/issues" />
             <item name="License" href="license.html" />
         </menu>
 

@@ -2,9 +2,9 @@
 
 Solr-Jetty-Maven is a simple Maven wrapper around the Solr search service.  It allows Solr to be run from within a Maven project, using Jetty as the server.  It's designed to provide a drop dead simple way to run Solr, but it also includes init.d scripts so that it can be run as a system service on a Linux machine.
 
-Just as a note, there isn't much original code in this project.  Most of its value is in the Maven configuration.  There are a couple of Maven mojos, to make things like creating and deleting new Solr cores easier (see below for information on using them), but that's about it.
+Just as a note, there isn't much original code in this project.  Most of its value is in the Maven configuration.  There are a couple of Maven Mojos, to enable the creating and deleting of new Solr cores (see below for information on using them), but that's about it.
 
-**[ Update:** With Solr 4.x, there is a new SolrCloud option that allows Solr to use an automated approach to sharding. After reviewing it, I've concluded the use case for it is beyond the scope of what I want to accomplish with this project. This project supports the use of slaves to scale out a search service, but it will not attempt to support the SolrCloud / Zookeeper stack. **]**
+**[[ Update:** With Solr 4.x, there is a new SolrCloud option that allows Solr to use an automated approach to sharding. After reviewing it, I've concluded the use case for it is beyond the scope of what I want to support with this project. This project supports the use of slaves to scale out a search service, but it will not attempt to support the whole SolrCloud / Zookeeper stack. **]]**
 
 _This project is not connected with the Solr project in any way.  It's just an attempt to repackage it in a clean, simple, native-Maven way._
 
@@ -12,7 +12,7 @@ _If you're looking for information about Solr, you'll want to <a href="http://lu
 
 ### Getting Started
 
-To install, you'll need Git, Java (>= 7), and Maven (>= 3). Once those are installed and setup, you can <a href="https://github.com/ksclarke/solr-jetty-maven/archive/master.zip">download</a> the solr-jetty-maven code directly or clone it using Git:
+To install, you'll need Java (>= 7), and Maven (>= 3). Once those are installed and setup, you can <a href="https://github.com/ksclarke/solr-jetty-maven/archive/master.zip">download a zip file</a> of the solr-jetty-maven code or clone it to your machine using Git:
 
     git clone git://github.com/ksclarke/solr-jetty-maven.git
 
