@@ -25,7 +25,7 @@
             <smoothScroll>true</smoothScroll>
             <theme>site</theme>
             <brand>
-                <name>FreeLibrary Project</name>
+                <name>FreeLibrary Projects</name>
                 <href>http://freelibrary.info</href>
             </brand>
             <slogan>A project that runs Solr in Jetty using Maven</slogan>
