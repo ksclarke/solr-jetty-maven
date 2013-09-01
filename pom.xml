@@ -60,7 +60,7 @@
     <dependency>
       <groupId>info.freelibrary</groupId>
       <artifactId>solr-iso639-filter</artifactId>
-      <version>${solr.version}.1-SNAPSHOT</version>
+      <version>${solr.version}-r20130829</version>
     </dependency>
     <!-- below here are the required solr jars we need to run solr -->
     <dependency>
