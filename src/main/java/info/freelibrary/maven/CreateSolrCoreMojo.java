@@ -41,6 +41,8 @@ public class CreateSolrCoreMojo extends AbstractMojo {
         String targetDir = myProject.getBuild().getOutputDirectory() + "/solr";
         File template = new File(targetDir, "collection1");
         File coreDir = new File(targetDir, myCore);
+        File baseDir = myProject.getBasedir();
+        File sourceDir = new File(baseDir, "src/main/resources/solr/" + myCore);
 
         if (myCore.equals("collection1")) {
             throw new MojoExecutionException(
@@ -58,7 +60,11 @@ public class CreateSolrCoreMojo extends AbstractMojo {
         }
 
         try {
+            // First copy it into our target directory (where it's run from)
             FileUtils.copyDirectory(template, coreDir, new SolrCoreFilter());
+            
+            // Then copy it into our source directory for version control
+            FileUtils.copyDirectory(coreDir, sourceDir);
         } catch (IOException details) {
             coreDir.delete(); // clean up if we weren't successful
             throw new MojoExecutionException(

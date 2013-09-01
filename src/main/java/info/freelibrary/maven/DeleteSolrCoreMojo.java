@@ -40,6 +40,8 @@ public class DeleteSolrCoreMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
         String targetDir = myProject.getBuild().getOutputDirectory() + "/solr";
         File coreDir = new File(targetDir, myCore);
+        File baseDir = myProject.getBasedir();
+        File sourceDir = new File(baseDir, "src/main/resources/solr/" + myCore);
 
         if (myCore.equals("collection1")) {
             throw new MojoExecutionException(
@@ -48,6 +50,7 @@ public class DeleteSolrCoreMojo extends AbstractMojo {
 
         try {
             FileUtils.deleteDirectory(coreDir);
+            FileUtils.deleteDirectory(sourceDir);
         } catch (IOException details) {
             throw new MojoExecutionException(
                     "Unable to delete the requested core directory: " +
