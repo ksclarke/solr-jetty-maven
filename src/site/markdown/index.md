@@ -1,18 +1,17 @@
 ### Introduction
 
-Solr-Jetty-Maven is a simple Maven wrapper around the Solr search service.  It allows Solr to be run from within a Maven project, using Jetty as the server.  It's designed to provide a drop dead simple way to run Solr, but it also includes init.d scripts so that it can be run in a more traditional way (i.e., as a system service on a Linux machine).
+Solr-Jetty-Maven is a simple Maven wrapper around the Solr search service.  It allows Solr to be run from within a Maven project, using Jetty as the server.  It's designed to provide a drop dead simple way to run Solr, but it also includes init.d scripts so that it can be run as a system service on a Linux machine.
 
-Just as a note, there isn't much original code in this project.  Most of its value is in the Maven configuration.  There are a couple of Maven mojos, to make things like creating and deleting new Solr cores easier (see below for information on using them), but that's about it.
+Just as a note, there isn't much original code in this project.  Most of its value is in the Maven configuration.  There are a couple of Maven Mojos, to enable the creating and deleting of new Solr cores (see below for information on using them), but that's about it.
 
-**[ Update:** With Solr 4.x, there is a new SolrCloud option that allows Solr to use an automated approach to sharding. After reviewing it, I've concluded the use case for it is beyond the scope of what I want to accomplish with this project. This project supports the use of slaves to scale out a search service, but it will not attempt to support the SolrCloud / Zookeeper stack. **]**
-
-_This project is not connected with the Solr project in any way.  It's just an attempt to repackage it in a clean, simple, native-Maven way._
+<br/>
+_This project is not connected with the Solr project in any way.  It's just an attempt to package Solr in a clean, simple, native-Maven way._
 
 _If you're looking for information about Solr, you'll want to <a href="http://lucene.apache.org/solr/">visit their website</a>._
 
 ### Getting Started
 
-To install, you'll need Git, Java (>= 7), and Maven (>= 3). Once those are installed and setup, you can <a href="https://github.com/ksclarke/solr-jetty-maven/archive/master.zip">download</a> the solr-jetty-maven code directly or clone it using Git:
+To install, you'll need Java (>= 7), and Maven (>= 3). Once those are installed and setup, you can <a href="https://github.com/ksclarke/solr-jetty-maven/archive/master.zip">download a zip file</a> of the solr-jetty-maven code or clone it to your machine using Git:
 
     git clone git://github.com/ksclarke/solr-jetty-maven.git
 
@@ -77,3 +76,29 @@ Once this is done, you should be able to start and stop the service:
 You can remove the service from the system's runlevels by typing:
 
     sudo update-rc.d -f solr remove
+
+### Adding Custom Filters and Analyzers
+
+To add custom filters and analyzers distributed through the Maven repository, you just need to add them as dependencies in your pom.xml file.  For instance, the following would add the [solr-iso639-filter](/solr-iso639-filter "Solr ISO-639 Filter") to your project:
+ 
+    <dependency>
+      <groupId>info.freelibrary</groupId>
+      <artifactId>solr-iso639-filter</artifactId>
+      <version>4.4.0-r20130829</version>
+    </dependency> 
+
+You'll still need to configure its use in the project's <a href="https://github.com/ksclarke/solr-jetty-maven/blob/master/src/main/resources/solr/collection1/conf/schema.xml">schema.xml</a> file, of course.
+
+### Caveats
+
+Solr now offers a new replication option, <a href="http://wiki.apache.org/solr/SolrCloud">SolrCloud</a>.  This allows <a href="https://cwiki.apache.org/confluence/display/solr/Shards+and+Indexing+Data+in+SolrCloud">shards</a> to be split across multiple machines, using <a href="http://zookeeper.apache.org/">Zookeeper</a> to keep things in sync.
+
+In keeping with its "easy to use" goal, this project doesn't support SolrCloud.  Instead, it supports the older master / slave Solr configuration, which allows Solr to scale by the addition of read-only slaves.
+
+So, if your index won't fit on a single machine, this project won't work for you.
+
+The other caveat is that this project stores its Solr data directory in the _target_ directory.  What this means is that running \`mvn clean\` will delete your Solr index, snapshots, logs, etc.
+
+This is intentional.  It encourages the best practice of being able to rebuild your index from scratch.
+
+You probably _don't_ want to do this on your production instance without some consideration to the result.
