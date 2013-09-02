@@ -32,8 +32,7 @@
     <developer>
       <email>ksclarke@gmail.com</email>
       <name>Kevin S. Clarke</name>
-      <organization>FreeLibrary</organization>
-      <organizationUrl>http://freelibrary.info</organizationUrl>
+      <url>http://kevinclarke.info</url>
       <roles>
         <role>developer</role>
       </roles>
@@ -57,13 +56,11 @@
   </properties>
   <dependencies>
     <!-- here we can add any custom solr filters, analyzers, etc. -->
-<!-- commenting out until it makes it into the central repo
     <dependency>
       <groupId>info.freelibrary</groupId>
       <artifactId>solr-iso639-filter</artifactId>
       <version>${solr.version}-r20130829</version>
     </dependency>
--->
     <!-- below here are the required solr jars we need to run solr -->
     <dependency>
       <groupId>org.apache.solr</groupId>
