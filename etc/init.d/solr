@@ -75,12 +75,12 @@ if [ ! -f ${SOLR_HOME}/pom.xml ]; then
 	die "Missing Maven config file: ${SOLR_HOME}/pom.xml"
 fi
 
-if [ ! -f ${SOLR_HOME}/src/main/resources/collection1/conf/schema.xml ]; then
-	die "Missing Solr schema file: ${SOLR_HOME}/src/main/resources/collection1/conf/schema.xml"
+if [ ! -f ${SOLR_HOME}/src/main/resources/solr/collection1/conf/schema.xml ]; then
+	die "Missing Solr schema file: ${SOLR_HOME}/src/main/resources/solr/collection1/conf/schema.xml"
 fi
 
-if [ ! -f ${SOLR_HOME}/src/main/resources/collection1/conf/solrconfig.xml ]; then
-	die "Missing Solr config file: ${SOLR_HOME}/src/main/resources/collection1/conf/solrconfig.xml"
+if [ ! -f ${SOLR_HOME}/src/main/resources/solr/collection1/conf/solrconfig.xml ]; then
+	die "Missing Solr config file: ${SOLR_HOME}/src/main/resources/solr/collection1/conf/solrconfig.xml"
 fi
 
 case $1 in
