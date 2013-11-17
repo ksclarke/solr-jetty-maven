@@ -52,23 +52,24 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <!-- default key which should be overridden in a settings.xml file -->
+    <!-- Default key which should be overridden in a settings.xml file -->
     <jetty.stop.key>cough</jetty.stop.key>
-    <solr.version>4.4.0</solr.version>
+    <!-- Current version of Solr supported by solr-jetty-maven -->
+    <solr.version>4.5.1</solr.version>
   </properties>
   <dependencies>
-    <!-- here we can add any custom solr filters, analyzers, etc. -->
+    <!-- Here we can add any custom solr filters, analyzers, etc. -->
     <dependency>
       <groupId>info.freelibrary</groupId>
       <artifactId>solr-iso639-filter</artifactId>
       <version>${solr.version}-r20130829</version>
     </dependency>
-    <!-- below here are the required solr jars we need to run solr -->
+    <!-- Below here are the required solr jars we need to run solr -->
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-core</artifactId>
       <version>${solr.version}</version>
-      <!-- explicitly include core to exclude hard-coded log4j dep in dep tree -->
+      <!-- Explicitly include core to exclude hard-coded log4j dep in dep tree -->
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -91,13 +92,13 @@
       <artifactId>solr-velocity</artifactId>
       <version>${solr.version}</version>
     </dependency>
-    <!-- below here are the dependencies for our Maven mojos -->
+    <!-- Below here are the dependencies for our Maven mojos -->
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>3.0.5</version>
       <exclusions>
-        <!-- this conflicts with a newer guava in solr; exclude it -->
+        <!-- This conflicts with a newer guava in solr; exclude it -->
         <exclusion>
           <groupId>org.sonatype.sisu</groupId>
           <artifactId>sisu-guava</artifactId>
@@ -114,7 +115,7 @@
       <artifactId>maven-core</artifactId>
       <version>3.0.5</version>
     </dependency>
-    <!-- below are the classes so we can use logback as our logger -->
+    <!-- Below are the classes so we can use logback as our logger -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -125,7 +126,7 @@
       <artifactId>jcl-over-slf4j</artifactId>
       <version>1.7.5</version>
     </dependency>
-    <!-- below are some unrelated libraries include because I find them useful -->
+    <!-- Below are some unrelated libraries include because I find them useful -->
     <dependency>
       <groupId>org.ccil.cowan.tagsoup</groupId>
       <artifactId>tagsoup</artifactId>
@@ -143,12 +144,6 @@
     </dependency>
     <!-- Below here are testing dependencies -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.apache.maven.shared</groupId>
       <artifactId>maven-verifier</artifactId>
       <version>1.4</version>
@@ -162,7 +157,7 @@
     </dependency>
   </dependencies>
   <build>
-    <!-- we copy files over to target and supply configured values in process -->
+    <!-- We copy files over to target and supply configured values in process -->
     <filters>
       <filter>src/main/resources/pom.defaults</filter>
     </filters>
@@ -200,7 +195,7 @@
       </testResource>
     </testResources>
     <plugins>
-      <!-- jetty plugin is how we run solr from within maven -->
+      <!-- Jetty plugin is how we run solr from within maven -->
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
@@ -220,7 +215,7 @@
             <groupId>org.apache.solr</groupId>
             <artifactId>solr-core</artifactId>
             <version>${solr.version}</version>
-            <!-- explicitly include core to exclude hard-coded log4j dependency -->
+            <!-- Explicitly include core to exclude hard-coded log4j dependency -->
             <exclusions>
               <exclusion>
                 <groupId>org.slf4j</groupId>
@@ -249,7 +244,7 @@
           </requestLog>
         </configuration>
       </plugin>
-      <!-- properties plugin sets system properties for the jetty plugin -->
+      <!-- Properties plugin sets system properties for the jetty plugin -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>properties-maven-plugin</artifactId>
@@ -278,7 +273,7 @@
           </execution>
         </executions>
       </plugin>
-      <!-- plugin plugin allows us to be able to run our solr mojos -->
+      <!-- Plugin plugin allows us to be able to run our Solr mojos -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
@@ -296,7 +291,7 @@
           </execution>
         </executions>
       </plugin>
-      <!-- resources plugin is used for copying report files into site directory -->
+      <!-- Resources plugin is used for copying report files into site directory -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
@@ -323,9 +318,25 @@
               </resources>
             </configuration>
           </execution>
+          <!-- Move this project's base Solr core to the integration test project -->
+          <execution>
+            <id>copy-solr-core</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>target/test-classes/mojo-tests-project/src/main/resources/solr</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources/solr</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
-      <!-- compiler plugin sets minimum JDK version: 1.7 -->
+      <!-- Compiler plugin sets minimum JDK version: 1.7 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -335,7 +346,7 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-      <!-- site plugin creates a documentation site with reports, etc. -->
+      <!-- Site plugin creates a documentation site with reports, etc. -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
@@ -385,7 +396,6 @@
               <configuration>
                 <forkCount>3</forkCount>
                 <reuseForks>true</reuseForks>
-                <argLine>-XX:-UseSplitVerifier</argLine>
               </configuration>
             </plugin>
             <plugin>
@@ -436,7 +446,7 @@
               <artifactId>findbugs-maven-plugin</artifactId>
               <version>2.5.2</version>
               <configuration>
-                <!-- below usually would be a package, but HelpMojo causes probs -->
+                <!-- Below usually would be a package, but HelpMojo causes probs -->
                 <onlyAnalyze>info.freelibrary.maven.CreateSolrCoreMojo,info.freelibrary.maven.CreateSolrCoreMojo$SolrCoreFilter,info.freelibrary.maven.DeleteSolrCoreMojo</onlyAnalyze>
               </configuration>
             </plugin>
@@ -588,26 +598,23 @@
           </dependency>
         </dependencies>
         <configuration>
-          <!-- Our tests shouldn't be run as unit tests -->
-          <excludes>
-            <exclude>**/*IntegrationTest.java</exclude>
-          </excludes>
-          <systemPropertyVariables>
-            <!-- So we keep test dependencies in sync with this project -->
-            <tested.project.version>${project.version}</tested.project.version>
-          </systemPropertyVariables>
+          <!-- We don't have any unit tests -->
+          <skip>true</skip>
         </configuration>
         <executions>
           <execution>
-            <id>integration-test</id>
+            <id>surefire-it</id>
+            <phase>integration-test</phase>
             <goals>
               <goal>test</goal>
             </goals>
-            <phase>integration-test</phase>
             <configuration>
-              <includes>
-                <include>**/*IntegrationSuite.java</include>
-              </includes>
+              <!-- We do have integration tests -->
+              <skip>false</skip>
+              <systemPropertyVariables>
+                <!-- So we keep test dependencies in sync with this project -->
+                <tested.project.version>${project.version}</tested.project.version>
+              </systemPropertyVariables>
             </configuration>
           </execution>
         </executions>
@@ -634,6 +641,7 @@
       <properties>
         <enable.master>true</enable.master>
         <commit.reserve.duration>00:00:10</commit.reserve.duration>
+        <test-repo>${project.build.directory}/test-classes/test-repo</test-repo>
       </properties>
     </profile>
     <!-- this covers the case of wanting to specify env.type -->

@@ -13,14 +13,13 @@
 # Improvements to script made by William Hattenhauer
 #-----------------------------------------------------
 ### BEGIN INIT INFO
-# Provides:          solr
+# Provides: solr
 # Required-Start:
 # Required-Stop:
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
 # Short-Description: init script for solr search
-# Description:       init script for solr search
-#                    This should be placed in /etc/init.d
+# Description: init script for solr search; should be copied to /etc/init.d
 ### END INIT INFO
 
 

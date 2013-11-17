@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+    http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>info.freelibrary.tests</groupId>
+    <artifactId>mojo-tests-project</artifactId>
+    <version>${tested.project.version}</version>
+    <packaging>jar</packaging>
+    <name>Mojo Tests for Solr-Jetty-Maven</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>info.freelibrary</groupId>
+                <artifactId>solr-jetty-maven</artifactId>
+                <version>${tested.project.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
