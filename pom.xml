@@ -318,22 +318,6 @@
               </resources>
             </configuration>
           </execution>
-          <!-- Move this project's base Solr core to the integration test project -->
-          <execution>
-            <id>copy-solr-core</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>target/test-classes/mojo-tests-project/src/main/resources/solr</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>src/main/resources/solr</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
       <!-- Compiler plugin sets minimum JDK version: 1.7 -->
@@ -344,6 +328,23 @@
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
+        </configuration>
+      </plugin>
+      <!-- No unit tests and we don't want to run integration tests here -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.14.1</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-junit47</artifactId>
+            <version>2.14.1</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <!-- We don't have any unit tests -->
+          <skip>true</skip>
         </configuration>
       </plugin>
       <!-- Site plugin creates a documentation site with reports, etc. -->
@@ -531,94 +532,6 @@
           </dependency>
         </dependencies>
       </plugin>
-      <!-- Install solr-jetty-maven to the test repository -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-install-plugin</artifactId>
-        <version>2.3.1</version>
-        <executions>
-          <execution>
-            <id>install-plugin-for-it</id>
-            <goals>
-              <goal>install-file</goal>
-            </goals>
-            <phase>pre-integration-test</phase>
-            <configuration>
-              <file>${project.build.directory}/${project.build.finalName}.jar</file>
-              <generatePom>true</generatePom>
-              <pomFile>pom.xml</pomFile>
-              <packaging>jar</packaging>
-              <version>${project.version}</version>
-              <localRepositoryPath>${test-repo}</localRepositoryPath>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Copy solr-jetty-maven dependencies to the test repository -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.8</version>
-        <executions>
-          <execution>
-            <id>copy-it-dependencies</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-              <!-- There is a go-offline goal but it's broken
-                     http://jira.codehaus.org/browse/MDEP-82 -->
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>${project.groupId}</groupId>
-                  <artifactId>${project.artifactId}</artifactId>
-                  <version>${project.version}</version>
-                  <type>${project.packaging}</type>
-                </artifactItem>
-              </artifactItems>
-              <outputDirectory>${test-repo}</outputDirectory>
-              <useRepositoryLayout>true</useRepositoryLayout>
-              <addParentPoms>true</addParentPoms>
-              <copyPom>true</copyPom>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Integration testing of solr-jetty-maven's mojos -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.14.1</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.surefire</groupId>
-            <artifactId>surefire-junit47</artifactId>
-            <version>2.14.1</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <!-- We don't have any unit tests -->
-          <skip>true</skip>
-        </configuration>
-        <executions>
-          <execution>
-            <id>surefire-it</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <!-- We do have integration tests -->
-              <skip>false</skip>
-              <systemPropertyVariables>
-                <!-- So we keep test dependencies in sync with this project -->
-                <tested.project.version>${project.version}</tested.project.version>
-              </systemPropertyVariables>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
     <extensions>
       <extension>
@@ -678,6 +591,129 @@
 
         <max.number.of.backups>1</max.number.of.backups>
       </properties>
+    </profile>
+<!-- a build profile just used on Travis runs to run the integration tests -->
+    <profile>
+      <id>travis</id>
+      <build>
+        <plugins>
+          <!-- Install solr-jetty-maven to the test repository -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-install-plugin</artifactId>
+            <version>2.3.1</version>
+            <executions>
+              <execution>
+                <id>install-plugin-for-it</id>
+                <goals>
+                  <goal>install-file</goal>
+                </goals>
+                <phase>pre-integration-test</phase>
+                <configuration>
+                  <file>${project.build.directory}/${project.build.finalName}.jar</file>
+                  <generatePom>true</generatePom>
+                  <pomFile>pom.xml</pomFile>
+                  <packaging>jar</packaging>
+                  <version>${project.version}</version>
+                  <localRepositoryPath>${test-repo}</localRepositoryPath>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Copy solr-jetty-maven dependencies to the test repository -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.8</version>
+            <executions>
+              <execution>
+                <id>copy-it-dependencies</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy-dependencies</goal>
+                  <!-- There is a go-offline goal but it's broken
+                     http://jira.codehaus.org/browse/MDEP-82 -->
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>${project.groupId}</groupId>
+                      <artifactId>${project.artifactId}</artifactId>
+                      <version>${project.version}</version>
+                      <type>${project.packaging}</type>
+                    </artifactItem>
+                  </artifactItems>
+                  <outputDirectory>${test-repo}</outputDirectory>
+                  <useRepositoryLayout>true</useRepositoryLayout>
+                  <addParentPoms>true</addParentPoms>
+                  <copyPom>true</copyPom>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Integration testing of solr-jetty-maven's mojos -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.14.1</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.maven.surefire</groupId>
+                <artifactId>surefire-junit47</artifactId>
+                <version>2.14.1</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <!-- We don't have any unit tests -->
+              <skip>true</skip>
+            </configuration>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <!-- We do have integration tests -->
+                  <skip>false</skip>
+                  <systemPropertyVariables>
+                    <!-- So we keep test dependencies in sync with this project -->
+                    <tested.project.version>${project.version}</tested.project.version>
+                  </systemPropertyVariables>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Resources plugin is used for copying report files into site directory -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.6</version>
+            <configuration>
+              <encoding>${project.build.sourceEncoding}</encoding>
+            </configuration>
+            <executions>
+              <!-- Move this project's base Solr core to the integration test project -->
+              <execution>
+                <id>copy-solr-core</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>target/test-classes/mojo-tests-project/src/main/resources/solr</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>src/main/resources/solr</directory>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <!-- this profile is just for releasing new versions of this project -->
     <profile>
