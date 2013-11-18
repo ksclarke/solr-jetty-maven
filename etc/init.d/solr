@@ -29,7 +29,6 @@
 
 # Configs that might need to be changed to fit your local system's setup
 SOLR_HOME="/opt/solr-jetty-maven"
-MVNCMD="/usr/bin/mvn"
 
 MAVEN_OPTIONS=""
 #MAVEN_OPTIONS="-Xmx1024m"
@@ -58,12 +57,19 @@ else
 	SOLR_USER="$(id -u -n)"
 fi
 
+# Find the mvn executable from the system path
+MVNCMD=`which mvn`
+
 # Configs that shouldn't need to be changed
 SOLR_START_CMD="sudo -u ${SOLR_USER} MAVEN_OPTS=${MAVEN_OPTIONS} $TMPSHELL $MVNCMD ${SOLR_OPTIONS} process-resources jetty:run"
 SOLR_STOP_CMD="sudo -u ${SOLR_USER} $MVNCMD -q jetty:stop"
 
 SOLR_PIDFILE=/var/run/solr.pid
 SOLR_LOGFILE=/var/log/solr-console.log
+
+if [[ -z $MVNCMD ]]; then
+	die "Can't find Maven's mvn executable"
+fi
 
 # Checking to make sure we're able to run what we need to
 if [ ! -d $SOLR_HOME ]; then
