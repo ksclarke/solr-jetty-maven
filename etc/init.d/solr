@@ -44,7 +44,9 @@ DISTRIB_ID=`lsb_release -i |awk ' { print $3 }'`
 TMPSHELL="-s /bin/bash"
 
 # Try to correctly set the user who should be used to run the server
-if [ $DISTRIB_ID == 'RedHatEnterpriseServer' ] \
+if [ $TRAVIS == 'true' ]; then
+	SOLR_USER=$USER
+elif [ $DISTRIB_ID == 'RedHatEnterpriseServer' ] \
 	|| [ $DISTRIB_ID == 'RedHat' ] \
 	|| [ $DISTRIB_ID == 'Fedora' ] \
 	|| [ $DISTRIB_ID == 'CentOS' ]; then
