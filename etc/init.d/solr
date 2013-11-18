@@ -68,24 +68,24 @@ SOLR_PIDFILE=/var/run/solr.pid
 SOLR_LOGFILE=/var/log/solr-console.log
 
 if [[ -z $MVNCMD ]]; then
-	die "Can't find Maven's mvn executable"
+	echo "Can't find Maven's mvn executable" >> $SOLR_LOGFILE && exit 1
 fi
 
-# Checking to make sure we're able to run what we need to
-if [ ! -d $SOLR_HOME ]; then
-	die "Can't find $SOLR_HOME"
-fi
-
+# Check if we're running from our own directory
 if [ ! -f ${SOLR_HOME}/pom.xml ]; then
-	die "Missing Maven config file: ${SOLR_HOME}/pom.xml"
+	if [ -f ./pom.xml ]; then
+		SOLR_HOME=`pwd`
+	else
+		echo "Can't find $SOLR_HOME" >> $SOLR_LOGFILE && exit 1
+	fi
 fi
 
 if [ ! -f ${SOLR_HOME}/src/main/resources/solr/collection1/conf/schema.xml ]; then
-	die "Missing Solr schema file: ${SOLR_HOME}/src/main/resources/solr/collection1/conf/schema.xml"
+	echo "Missing Solr schema file: ${SOLR_HOME}/src/main/resources/solr/collection1/conf/schema.xml" >> $SOLR_LOGFILE && exit 1
 fi
 
 if [ ! -f ${SOLR_HOME}/src/main/resources/solr/collection1/conf/solrconfig.xml ]; then
-	die "Missing Solr config file: ${SOLR_HOME}/src/main/resources/solr/collection1/conf/solrconfig.xml"
+	echo "Missing Solr config file: ${SOLR_HOME}/src/main/resources/solr/collection1/conf/solrconfig.xml" >> $SOLR_LOGFILE && exit1
 fi
 
 case $1 in
