@@ -55,14 +55,15 @@
     <!-- Default key which should be overridden in a settings.xml file -->
     <jetty.stop.key>cough</jetty.stop.key>
     <!-- Current version of Solr supported by solr-jetty-maven -->
-    <solr.version>4.5.1</solr.version>
+    <solr.version>4.6.0</solr.version>
+    <jetty.port>8983</jetty.port>
   </properties>
   <dependencies>
     <!-- Here we can add any custom solr filters, analyzers, etc. -->
     <dependency>
       <groupId>info.freelibrary</groupId>
       <artifactId>solr-iso639-filter</artifactId>
-      <version>${solr.version}-r20130829</version>
+      <version>${solr.version}-r20131208</version>
     </dependency>
     <!-- Below here are the required solr jars we need to run solr -->
     <dependency>
@@ -159,11 +160,11 @@
   <build>
     <!-- We copy files over to target and supply configured values in process -->
     <filters>
-      <filter>src/main/resources/pom.defaults</filter>
+      <filter>${basedir}/src/main/resources/pom.defaults</filter>
     </filters>
     <resources>
       <resource>
-        <directory>src/main/resources</directory>
+        <directory>${basedir}/src/main/resources</directory>
         <filtering>true</filtering>
         <includes>
           <include>**/*.xml</include>
@@ -180,14 +181,14 @@
     <!-- Filter the settings.xml file but not the test projects -->
     <testResources>
       <testResource>
-        <directory>src/test/resources</directory>
+        <directory>${basedir}/src/test/resources</directory>
         <includes>
           <include>settings.xml</include>
         </includes>
         <filtering>true</filtering>
       </testResource>
       <testResource>
-        <directory>src/test/resources</directory>
+        <directory>${basedir}/src/test/resources</directory>
         <excludes>
           <exclude>settings.xml</exclude>
         </excludes>
@@ -236,7 +237,7 @@
           <stopPort>8993</stopPort>
           <scanIntervalSeconds>0</scanIntervalSeconds>
           <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
-            <filename>target/yyyy_mm_dd.request.log</filename>
+            <filename>${basedir}/target/yyyy_mm_dd.request.log</filename>
             <retainDays>30</retainDays>
             <append>true</append>
             <extended>false</extended>
@@ -258,15 +259,15 @@
               <properties>
                 <property>
                   <name>logback.configurationFile</name>
-                  <value>src/main/resources/logback.xml</value>
+                  <value>${basedir}/src/main/resources/logback.xml</value>
                 </property>
                 <property>
                   <name>jetty.port</name>
-                  <value>8983</value>
+                  <value>${jetty.port}</value>
                 </property>
                 <property>
                   <name>solr.solr.home</name>
-                  <value>target/classes/solr/</value>
+                  <value>${basedir}/target/classes/solr/</value>
                 </property>
               </properties>
             </configuration>
@@ -310,10 +311,10 @@
               <outputDirectory>${basedir}/target/site</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src/site/resources/eclipse</directory>
+                  <directory>${basedir}/src/site/resources/eclipse</directory>
                 </resource>
                 <resource>
-                  <directory>src/site/resources/checkstyle</directory>
+                  <directory>${basedir}/src/site/resources/checkstyle</directory>
                 </resource>
               </resources>
             </configuration>
@@ -430,7 +431,7 @@
                 <notimestamp>true</notimestamp>
                 <show>protected</show>
                 <source>1.7</source>
-                <sourcepath>src/main/java/info/freelibrary</sourcepath>
+                <sourcepath>${basedir}/src/main/java/info/freelibrary</sourcepath>
               </configuration>
               <reportSets>
                 <reportSet>
@@ -457,8 +458,8 @@
               <version>2.10</version>
               <configuration>
                 <consoleOutput>true</consoleOutput>
-                <configLocation>src/site/resources/checkstyle/checkstyle.xml</configLocation>
-                <suppressionsLocation>src/site/resources/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+                <configLocation>${basedir}/src/site/resources/checkstyle/checkstyle.xml</configLocation>
+                <suppressionsLocation>${basedir}/src/site/resources/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
               </configuration>
             </plugin>
             <plugin>
@@ -702,10 +703,10 @@
                   <goal>copy-resources</goal>
                 </goals>
                 <configuration>
-                  <outputDirectory>target/test-classes/mojo-tests-project/src/main/resources/solr</outputDirectory>
+                  <outputDirectory>${basedir}/target/test-classes/mojo-tests-project/src/main/resources/solr</outputDirectory>
                   <resources>
                     <resource>
-                      <directory>src/main/resources/solr</directory>
+                      <directory>${basedir}/src/main/resources/solr</directory>
                     </resource>
                   </resources>
                 </configuration>

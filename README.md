@@ -1,6 +1,6 @@
 # solr-jetty-maven
 
-A Solr project that runs in a Jetty container in a Maven 3 environment. It also contains a Solr Maven plugin that allows you to create and delete cores.
+A Solr project that runs in a Jetty container in a Maven 3 environment. It also contains a Solr Maven plugin that allows you to create and delete cores.  This project currently supports Solr version 4.5.1.
 
 ### Introduction
 
