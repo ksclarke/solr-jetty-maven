@@ -106,10 +106,6 @@ Note that, currently, running:
 
 will "clean" (i.e., delete) the Solr workspace (index, snapshots, etc.)
 
-### Project Status
-
-[![Build Status](https://travis-ci.org/ksclarke/solr-jetty-maven.png?branch=master)](https://travis-ci.org/ksclarke/solr-jetty-maven)
-
 ### License
 
 Apache Software License, version 2.0 (just like the projects it's based on)
