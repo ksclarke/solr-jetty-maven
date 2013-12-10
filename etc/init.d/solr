@@ -37,6 +37,9 @@ SOLR_OPTIONS=""
 #SOLR_OPTIONS="-Denv.type=master"
 #SOLR_OPTIONS="-Denv.type=slave"
 
+SOLR_PIDFILE=/var/run/solr.pid
+SOLR_LOGFILE=/var/log/solr-console.log
+
 # Find out what Linux distribution we're running under
 DISTRIB_ID=`lsb_release -i |awk ' { print $3 }'`
 
@@ -46,6 +49,9 @@ TMPSHELL="-s /bin/bash"
 # Try to correctly set the user who should be used to run the server
 if [ $TRAVIS == 'true' ]; then
 	SOLR_USER=$USER
+	SOLR_HOME=`pwd`
+        SOLR_PIDFILE=solr.pid
+        SOLR_LOGFILE=solr-console.log
 elif [ $DISTRIB_ID == 'RedHatEnterpriseServer' ] \
 	|| [ $DISTRIB_ID == 'RedHat' ] \
 	|| [ $DISTRIB_ID == 'Fedora' ] \
@@ -65,9 +71,6 @@ MVNCMD=`which mvn`
 # Configs that shouldn't need to be changed
 SOLR_START_CMD="sudo -u ${SOLR_USER} MAVEN_OPTS=${MAVEN_OPTIONS} $TMPSHELL $MVNCMD ${SOLR_OPTIONS} process-resources jetty:run"
 SOLR_STOP_CMD="sudo -u ${SOLR_USER} $MVNCMD -q jetty:stop"
-
-SOLR_PIDFILE=/var/run/solr.pid
-SOLR_LOGFILE=/var/log/solr-console.log
 
 if [[ -z $MVNCMD ]]; then
 	echo "Can't find Maven's mvn executable" >> $SOLR_LOGFILE && exit 1
