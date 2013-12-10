@@ -1,4 +1,5 @@
 language: java
+
 jdk:
   - openjdk7
   - oraclejdk7
@@ -6,11 +7,11 @@ jdk:
 install: "mvn -DskipTests=true install"
 
 script:
- - mvn -Ptravis install
- - sudo cp -r ../solr-jetty-maven /opt
- - sudo etc/init.d/solr start
+ - sudo ln -s . /opt/solr-jetty-maven
+ - etc/init.d/solr start
  - sleep 30
  - test "200" == $(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8983/solr/admin/ping")
+ - mvn -Ptravis install
 
 notifications:
   email:
