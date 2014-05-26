@@ -109,4 +109,4 @@ Apache Software License, version 2.0 (just like the projects it's based on)
 
 ### Contact
 
-This is a pretty straightforward use of Solr, but if you have questions about it feel free to contact me, Kevin S. Clarke, at ksclarke@gmail.com
+If you have questions about solr-jetty-maven feel free to ask them on the FreeLibrary Projects [mailing list](https://groups.google.com/forum/#!forum/freelibrary-projects); or, if you encounter a problem, please feel free to [open an issue](https://github.com/ksclarke/solr-jetty-maven/issues "GitHub Issue Queue") in the project's issue queue.
