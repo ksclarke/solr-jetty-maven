@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>info.freelibrary</groupId>
@@ -55,7 +54,7 @@
     <!-- Default key which should be overridden in a settings.xml file -->
     <jetty.stop.key>cough</jetty.stop.key>
     <!-- Current version of Solr supported by solr-jetty-maven -->
-    <solr.version>4.6.0</solr.version>
+    <solr.version>4.8.0</solr.version>
     <jetty.port>8983</jetty.port>
   </properties>
   <dependencies>
@@ -593,7 +592,7 @@
         <max.number.of.backups>1</max.number.of.backups>
       </properties>
     </profile>
-<!-- a build profile just used on Travis runs to run the integration tests -->
+    <!-- a build profile just used on Travis runs to run the integration tests -->
     <profile>
       <id>travis</id>
       <build>

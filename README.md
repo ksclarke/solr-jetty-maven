@@ -1,6 +1,6 @@
 # solr-jetty-maven <a href="https://travis-ci.org/ksclarke/solr-jetty-maven"><img src="https://travis-ci.org/ksclarke/solr-jetty-maven.png?branch=master"/></a>
 
-A Solr project that runs in a Jetty container in a Maven 3 environment. It also contains a Solr Maven plugin that allows you to create and delete cores.  This project currently supports Solr version 4.6.
+A Solr project that runs in a Jetty container in a Maven 3 environment. It also contains a Solr Maven plugin that allows you to create and delete cores.  This project currently supports Solr version 4.8.
 
 ### Introduction
 
@@ -34,8 +34,7 @@ You can then run the server using the Web user on your machine:
 
 Or, you can run it as a system service using the steps in the "Running as a System Service" section below.
 
-To customize the configuration of a Solr master or slave, look at the config properties in the project's pom.xml profiles section. These values can be
-overridden (without touching the pom.xml file) in a Maven settings.xml file found at either of the following locations:
+To customize the configuration of a Solr master or slave, look at the config properties in the project's pom.xml profiles section. These values can be overridden (without touching the pom.xml file) in a Maven settings.xml file found at either of the following locations:
 
     $M2_HOME/conf/settings.xml
     ${user.home}/.m2/settings.xml
@@ -72,9 +71,7 @@ To see cores you've created (once you've started Jetty), you can go to the admin
 
 ### Running as a System Service
 
-There is a beta init.d script that will allow the Solr service to be started in a standard Linux way. First, check to ensure that the user who will be
-running the service, the location of the service (i.e., where you've checked out the project's code), and all the other init.d script's variables reflect
-the values of your local system.
+There is a beta init.d script that will allow the Solr service to be started in a standard Linux way. First, check to ensure that the user who will be running the service, the location of the service (i.e., where you've checked out the project's code), and all the other init.d script's variables reflect the values of your local system.
 
 After that, you can install it by copying it to the /etc/init.d directory:
 
