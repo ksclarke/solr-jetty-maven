@@ -49,13 +49,15 @@
     </contributor>
   </contributors>
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- Default key which should be overridden in a settings.xml file -->
     <jetty.stop.key>cough</jetty.stop.key>
-    <!-- Current version of Solr supported by solr-jetty-maven -->
-    <solr.version>4.8.0</solr.version>
+    <!-- Port at which Solr runs (can be overridden on the command line) -->
     <jetty.port>8983</jetty.port>
+    <!-- Current version of Solr supported by solr-jetty-maven -->
+    <solr.version>4.8.1</solr.version>
+    <!-- Should not need to change these properties -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   <dependencies>
     <!-- Here we can add any custom solr filters, analyzers, etc. -->
@@ -69,28 +71,12 @@
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-core</artifactId>
       <version>${solr.version}</version>
-      <!-- Explicitly include core to exclude hard-coded log4j dep in dep tree -->
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>log4j</groupId>
-          <artifactId>log4j</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr</artifactId>
       <version>${solr.version}</version>
       <type>war</type>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-velocity</artifactId>
-      <version>${solr.version}</version>
     </dependency>
     <!-- Below here are the dependencies for our Maven mojos -->
     <dependency>
@@ -126,7 +112,7 @@
       <artifactId>jcl-over-slf4j</artifactId>
       <version>1.7.5</version>
     </dependency>
-    <!-- Below are some unrelated libraries include because I find them useful -->
+    <!-- Below are some unrelated libraries included because I find them useful -->
     <dependency>
       <groupId>org.ccil.cowan.tagsoup</groupId>
       <artifactId>tagsoup</artifactId>
@@ -174,6 +160,7 @@
           <include>**/*.css</include>
           <include>**/*.js</include>
           <include>**/*.properties</include>
+          <include>**/*.html</include>
         </includes>
       </resource>
     </resources>
@@ -199,8 +186,8 @@
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>9.0.5.v20130815</version>
-        <dependencies>
+        <version>9.2.0.v20140526</version>
+       <dependencies>
           <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -210,22 +197,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.7.5</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.solr</groupId>
-            <artifactId>solr-core</artifactId>
-            <version>${solr.version}</version>
-            <!-- Explicitly include core to exclude hard-coded log4j dependency -->
-            <exclusions>
-              <exclusion>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-              </exclusion>
-              <exclusion>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-              </exclusion>
-            </exclusions>
           </dependency>
         </dependencies>
         <configuration>
