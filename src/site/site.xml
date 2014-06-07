@@ -26,7 +26,7 @@
             <theme>site</theme>
             <brand>
                 <name>FreeLibrary Projects</name>
-                <href>http://freelibrary.info</href>
+                <href>http://projects.freelibrary.info</href>
             </brand>
             <slogan>A project that runs Solr in Jetty using Maven</slogan>
             <titleTemplate>%2$s | %1$s</titleTemplate>
