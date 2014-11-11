@@ -54,7 +54,7 @@
     <!-- Port at which Solr runs (can be overridden on the command line) -->
     <jetty.port>8983</jetty.port>
     <!-- Current version of Solr supported by solr-jetty-maven -->
-    <solr.version>4.8.1</solr.version>
+    <solr.version>4.10.2</solr.version>
     <!-- Should not need to change these properties -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -187,7 +187,7 @@
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>9.2.0.v20140526</version>
-       <dependencies>
+        <dependencies>
           <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
