@@ -40,115 +40,135 @@ SOLR_OPTIONS=""
 SOLR_PIDFILE=/var/run/solr.pid
 SOLR_LOGFILE=/var/log/solr-console.log
 
+# We'll enable debugging but starting the command with DEBUG; for instance: DEBUG-start or DEBUG-stop
+if [[ "$1" == DEBUG* ]]; then
+  DEBUG=true
+  COMMAND=$(echo "$1" | cut -d'-' -f 2)
+else
+  DEBUG=false
+  COMMAND="$1"
+fi
+
 # Find out what Linux distribution we're running under
 DISTRIB_ID=`lsb_release -i |awk ' { print $3 }'`
+
+if $DEBUG; then echo "Distro: $DISTRIB_ID"; fi
 
 # Give the Web user a shell to run `mvn` from (most don't have this by default)
 TMPSHELL="-s /bin/bash"
 
 # Try to correctly set the user who should be used to run the server
 if [ "$TRAVIS" == 'true' ] ; then
-	SOLR_USER="$USER"
-	SOLR_HOME=`pwd`
-        SOLR_PIDFILE=solr.pid
-        SOLR_LOGFILE=solr-console.log
+  SOLR_USER="$USER"
+  SOLR_HOME=`pwd`
+  SOLR_PIDFILE=solr.pid
+  SOLR_LOGFILE=solr-console.log
 elif [ "$DISTRIB_ID" == 'RedHatEnterpriseServer' ] \
-	|| [ "$DISTRIB_ID" == 'RedHat' ] \
-	|| [ "$DISTRIB_ID" == 'Fedora' ] \
-	|| [ "$DISTRIB_ID" == 'CentOS' ] ; then
-	SOLR_USER="apache"
+  || [ "$DISTRIB_ID" == 'RedHat' ] \
+  || [ "$DISTRIB_ID" == 'Fedora' ] \
+  || [ "$DISTRIB_ID" == 'CentOS' ] ; then
+  SOLR_USER="apache"
 elif [ "$DISTRIB_ID" == 'Ubuntu' ] \
-	|| [ "$DISTRIB_ID" == 'Debian' ] ; then
-	SOLR_USER="www-data"
+  || [ "$DISTRIB_ID" == 'Debian' ] ; then
+  SOLR_USER="www-data"
 else
-	echo "Running Solr as the '$(id -u -n)' user"
-	SOLR_USER="$(id -u -n)"
+  echo "Running Solr as the '$(id -u -n)' user"
+  SOLR_USER="$(id -u -n)"
+fi
+
+if $DEBUG; then
+  echo "Solr user: $SOLR_USER"
+  echo "Solr home: $SOLR_HOME"
+  echo "Solr PID file: $SOLR_PIDFILE"
+  echo "Solr log file: $SOLR_LOGFILE"
 fi
 
 # Find the mvn executable from the system path
 MVNCMD=`which mvn`
 
 # Configs that shouldn't need to be changed
-SOLR_START_CMD="sudo -u ${SOLR_USER} MAVEN_OPTS=${MAVEN_OPTIONS} $TMPSHELL $MVNCMD ${SOLR_OPTIONS} process-resources jetty:run"
+SOLR_START_CMD="sudo -u ${SOLR_USER} MAVEN_OPTS=${MAVEN_OPTIONS} $TMPSHELL $MVNCMD ${SOLR_OPTIONS} \
+  process-resources jetty:run"
 SOLR_STOP_CMD="sudo -u ${SOLR_USER} $MVNCMD -q jetty:stop"
 
 if [[ -z "$MVNCMD" ]]; then
-	echo "Can't find Maven's mvn executable" >> $SOLR_LOGFILE && exit 1
+  echo "Can't find Maven's mvn executable" >> $SOLR_LOGFILE && exit 1
 fi
 
 # Check if we're running from our own directory
 if [ ! -f "${SOLR_HOME}/pom.xml" ]; then
-	if [ -f ./pom.xml ]; then
-		SOLR_HOME=`pwd`
-	else
-		echo "Can't find $SOLR_HOME" >> $SOLR_LOGFILE && exit 1
-	fi
+  if [ -f ./pom.xml ]; then
+    SOLR_HOME=`pwd`
+  else
+    echo "Can't find $SOLR_HOME" >> $SOLR_LOGFILE && exit 1
+  fi
 fi
 
 if [ ! -f "${SOLR_HOME}/src/main/resources/solr/collection1/conf/schema.xml" ]; then
-	echo "Missing Solr schema file: ${SOLR_HOME}/src/main/resources/solr/collection1/conf/schema.xml" >> $SOLR_LOGFILE && exit 1
+  echo "Missing Solr schema file: ${SOLR_HOME}/src/main/resources/solr/collection1/conf/schema.xml" >> $SOLR_LOGFILE && exit 1
 fi
 
 if [ ! -f "${SOLR_HOME}/src/main/resources/solr/collection1/conf/solrconfig.xml" ]; then
-	echo "Missing Solr config file: ${SOLR_HOME}/src/main/resources/solr/collection1/conf/solrconfig.xml" >> $SOLR_LOGFILE && exit1
+  echo "Missing Solr config file: ${SOLR_HOME}/src/main/resources/solr/collection1/conf/solrconfig.xml" >> $SOLR_LOGFILE && exit1
 fi
 
-case $1 in
+case $COMMAND in
 start)
-	eval cd ~$SOLR_USER
+  eval cd ~$SOLR_USER
 
-	if [ ! -f .m2 ]; then
-		mkdir -p .m2/repository
-		chown -R $SOLR_USER:$SOLR_USER .m2
-	fi
+  if [ ! -f .m2 ]; then
+    mkdir -p .m2/repository
+    chown -R $SOLR_USER:$SOLR_USER .m2
+  fi
 
-	started=false
-	cd $SOLR_HOME
-	nohup $SOLR_START_CMD > $SOLR_LOGFILE 2>&1 &
-	pid=$!
-	echo $pid > $SOLR_PIDFILE
+  started=false
+  cd $SOLR_HOME
+  nohup $SOLR_START_CMD > $SOLR_LOGFILE 2>&1 &
+  pid=$!
+  echo $pid > $SOLR_PIDFILE
 
-	# We remove one line in the below because it contains `ps` labels
-	while [ `ps -p$pid -o pid | sed "1 d" | wc -l` != 0 ];
-	do
-		if grep -q "Started Jetty Server" $SOLR_LOGFILE; then
-			started=true
-			break
-		fi
+  # We remove one line in the below because it contains `ps` labels
+  while [ `ps -p$pid -o pid | sed "1 d" | wc -l` != 0 ];
+  do
+    if grep -q "Started Jetty Server" $SOLR_LOGFILE; then
+      started=true
+      break
+    fi
 
-		sleep 1
-	done
+    sleep 1
+  done
 
-	if [ $started == true ]; then
-		echo "Solr successfully started"
-	else
-		wait $pid
+  if [ $started == true ]; then
+    echo "Solr successfully started"
+  else
+    wait $pid
 
-		if [[ $? != 0 ]]; then
-			echo "Failed to start Solr"
-			echo "  Consult the log for more details: $SOLR_LOGFILE"
-		fi
-	fi
-	;;
+    if [[ $? != 0 ]]; then
+      echo "Failed to start Solr"
+      echo "  Consult the log for more details: $SOLR_LOGFILE"
+      exit 1
+    fi
+  fi
+  ;;
 stop)
-	cd $SOLR_HOME
-	$SOLR_STOP_CMD
-	rm -f $SOLR_PIDFILE
-	echo "Solr successfully stopped"
-	;;
+  cd $SOLR_HOME
+  $SOLR_STOP_CMD
+  rm -f $SOLR_PIDFILE
+  echo "Solr successfully stopped"
+  ;;
 restart)
-	$0 stop
-	$0 start
-	;;
+  $0 stop
+  $0 start
+  ;;
 status)
-	if [ -f $SOLR_PIDFILE ]; then
-		echo "Solr running"
-	else
-		echo "Solr stopped"
-	fi
-	;;
+  if [ -f $SOLR_PIDFILE ]; then
+    echo "Solr running"
+  else
+    echo "Solr stopped"
+  fi
+  ;;
 *)
-	echo "Usage: $0 {start|stop|restart|status}"
-	exit 3
-	;;
+  echo "Usage: $0 {start|stop|restart|status}"
+  exit 3
+  ;;
 esac

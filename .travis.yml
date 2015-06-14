@@ -8,7 +8,7 @@ install: "mvn -DskipTests=true install"
 
 script:
  - sudo ln -s . /opt/solr-jetty-maven
- - etc/init.d/solr start
+ - etc/init.d/solr DEBUG-start
  - sleep 30
  - test "200" == $(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8983/solr/admin/ping")
  - mvn -Ptravis install
