@@ -146,6 +146,11 @@ start)
     if [[ $? != 0 ]]; then
       echo "Failed to start Solr"
       echo "  Consult the log for more details: $SOLR_LOGFILE"
+
+      if $DEBUG; then
+        cat $SOLR_LOGFILE
+      fi
+
       exit 1
     fi
   fi

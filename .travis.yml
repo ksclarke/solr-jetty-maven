@@ -4,6 +4,9 @@ jdk:
   - openjdk7
   - oraclejdk7
 
+matrix:
+  fast_finish: true
+
 install: "mvn -DskipTests=true install"
 
 script:
