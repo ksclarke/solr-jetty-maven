@@ -191,12 +191,12 @@
           <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
+            <version>1.1.3</version><!-- ${logback.version} -->
           </dependency>
           <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>${jcl.over.slf4j.version}</version>
+            <version>1.7.12</version> <!-- ${jcl.over.slf4j.version} -->
           </dependency>
         </dependencies>
         <configuration>

@@ -87,8 +87,7 @@ fi
 MVNCMD=`which mvn`
 
 # Configs that shouldn't need to be changed
-SOLR_START_CMD="sudo -u ${SOLR_USER} MAVEN_OPTS=${MAVEN_OPTIONS} $TMPSHELL $MVNCMD ${SOLR_OPTIONS} \
-  process-resources jetty:run"
+SOLR_START_CMD="sudo -u ${SOLR_USER} MAVEN_OPTS=${MAVEN_OPTIONS} $TMPSHELL $MVNCMD ${SOLR_OPTIONS} process-resources jetty:run"
 SOLR_STOP_CMD="sudo -u ${SOLR_USER} $MVNCMD -q jetty:stop"
 
 if [[ -z "$MVNCMD" ]]; then
