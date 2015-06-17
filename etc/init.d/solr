@@ -43,7 +43,7 @@ SOLR_LOGFILE=/var/log/solr-console.log
 # We'll enable debugging but starting the command with DEBUG; for instance: DEBUG-start or DEBUG-stop
 if [[ "$1" == DEBUG* ]]; then
   DEBUG=true
-  COMMAND=$(echo "$1" | cut -d'-' -f 2)
+  COMMAND=$(echo "$1" | cut -d '-' -f 2)
 else
   DEBUG=false
   COMMAND="$1"
